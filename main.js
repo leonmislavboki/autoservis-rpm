@@ -1,38 +1,5 @@
 /* Auto Servis RPM — main.js */
 
-/* ── Map ── */
-const leafletScript = document.createElement('script');
-leafletScript.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-leafletScript.onload = () => {
-  const map = L.map('map', { zoomControl: true, scrollWheelZoom: false });
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/">CARTO</a>',
-    maxZoom: 20
-  }).addTo(map);
-
-  fetch('https://nominatim.openstreetmap.org/search?format=json&q=Samoborska+cesta+250,+Zagreb,+Croatia&limit=1', {
-    headers: { 'Accept-Language': 'hr' }
-  })
-    .then(r => r.json())
-    .then(data => {
-      if (data.length > 0) {
-        const lat = parseFloat(data[0].lat);
-        const lng = parseFloat(data[0].lon);
-        map.setView([lat, lng], 17);
-        const icon = L.divIcon({
-          className: '',
-          html: '<div style="width:16px;height:16px;background:#e63329;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.4);"></div>',
-          iconSize: [16, 16],
-          iconAnchor: [8, 8]
-        });
-        L.marker([lat, lng], { icon })
-          .addTo(map)
-          .bindPopup('<strong>Auto Servis RPM</strong><br>Samoborska cesta 250, Zagreb')
-          .openPopup();
-      }
-    });
-};
-document.head.appendChild(leafletScript);
 
 /* ── Header scroll state ── */
 const header = document.getElementById('header');
