@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Auto servis RPM – automehaničarska radionica u Zagrebu. Mehanički radovi, montaža i balansiranje guma, dijagnostika i servisiranje svih marki vozila." />
+  <title>Auto Servis RPM | Zagreb</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#" class="logo" aria-label="Auto Servis RPM – početna">
+        <img src="logo-rpm-cropped.png" alt="RPM Auto Servis" class="logo__img" />
+      </a>
+      <nav class="nav" aria-label="Glavna navigacija">
+        <ul class="nav__list">
+          <li><a href="#usluge" class="nav__link">Usluge</a></li>
+          <li><a href="#zasto-mi" class="nav__link">O nama</a></li>
+          <li><a href="#recenzije" class="nav__link">Recenzije</a></li>
+          <li><a href="#galerija" class="nav__link">Galerija</a></li>
+          <li><a href="#kontakt" class="nav__link">Kontakt</a></li>
+        </ul>
+      </nav>
+      <a href="tel:+385923894126" class="btn btn--header">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.93a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        092 389 4126
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Otvori izbornik" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobilna navigacija" hidden>
+      <ul>
+        <li><a href="#usluge" class="mobile-nav__link">Usluge</a></li>
+        <li><a href="#zasto-mi" class="mobile-nav__link">O nama</a></li>
+        <li><a href="#recenzije" class="mobile-nav__link">Recenzije</a></li>
+        <li><a href="#galerija" class="mobile-nav__link">Galerija</a></li>
+        <li><a href="#kontakt" class="mobile-nav__link">Kontakt</a></li>
+        <li><a href="tel:+385923894126" class="mobile-nav__link mobile-nav__link--cta">092 389 4126</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" aria-label="Uvod">
+      <div class="hero__bg" aria-hidden="true">
+        <div class="hero__overlay"></div>
+      </div>
+      <div class="container hero__content">
+        <div class="hero__badge">
+          Automehaničarska radionica · Zagreb
+        </div>
+        <h1 class="hero__title">
+          Vaše vozilo u<br />
+          <span class="hero__title--accent">pravim rukama.</span>
+        </h1>
+        <p class="hero__subtitle">
+          Profesionalni servis svih marki vozila — od mehaničkih radova do montaže guma. Brzo, pouzdano, bez iznenađenja.
+        </p>
+        <div class="hero__actions">
+          <a href="#kontakt" class="btn btn--primary">Zakažite termin</a>
+          <a href="#usluge" class="btn btn--ghost">
+            Naše usluge
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <div class="hero__stats" role="list">
+          <div class="hero__stat" role="listitem">
+            <div class="hero__stat-top">
+              <span class="hero__stat-number" data-target="29">0</span>
+            </div>
+            <span class="hero__stat-label">Google recenzija</span>
+          </div>
+          <div class="hero__stat-divider" aria-hidden="true"></div>
+          <div class="hero__stat" role="listitem">
+            <div class="hero__stat-top">
+              <span class="hero__stat-number hero__stat-number--decimal">5.0</span>
+            </div>
+            <span class="hero__stat-label">Prosječna ocjena</span>
+          </div>
+          <div class="hero__stat-divider" aria-hidden="true"></div>
+          <div class="hero__stat" role="listitem">
+            <div class="hero__stat-top">
+              <span class="hero__stat-number" data-target="100">0</span><span class="hero__stat-suffix">%</span>
+            </div>
+            <span class="hero__stat-label">Transparentnost</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero__scroll" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="usluge" aria-labelledby="services-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Što nudimo</span>
+          <h2 class="section-title" id="services-heading">Kompletna briga<br />o vašem vozilu</h2>
+          <p class="section-subtitle">Od redovnog servisa do složenih mehaničkih zahvata — sve na jednom mjestu.</p>
+        </div>
+        <div class="services__grid">
+
+          <article class="service-card" tabindex="0">
+            <div class="service-card__icon" aria-hidden="true">
+              <span style="font-size:26px;line-height:1;">🔍</span>
+            </div>
+            <h3 class="service-card__title">Dijagnostika</h3>
+            <p class="service-card__desc">Kompjuterska dijagnostika svih sustava vozila.</p>
+            <span class="service-card__tag">Sva vozila</span>
+          </article>
+
+          <article class="service-card" tabindex="0">
+            <div class="service-card__icon" aria-hidden="true">
+              <span style="font-size:26px;line-height:1;">🔧</span>
+            </div>
+            <h3 class="service-card__title">Mehanički radovi</h3>
+            <p class="service-card__desc">Motor, mjenjač, ovjes, kočnice — sve mehaničke intervencije uz korištenje kvalitetnih dijelova.</p>
+            <span class="service-card__tag">Sve marke</span>
+          </article>
+
+          <article class="service-card service-card--featured" tabindex="0">
+            <div class="service-card__icon" aria-hidden="true">
+              <span style="font-size:26px;line-height:1;">🛞</span>
+            </div>
+            <h3 class="service-card__title">Gume</h3>
+            <p class="service-card__desc">Montaža, demontaža i balansiranje guma svih dimenzija. Prodaja ljetnih, zimskih i cjelogodišnjih guma.</p>
+            <span class="service-card__tag service-card__tag--accent">Najpopularnije</span>
+          </article>
+
+          <article class="service-card" tabindex="0">
+            <div class="service-card__icon" aria-hidden="true">
+              <span style="font-size:26px;line-height:1;">🛢️</span>
+            </div>
+            <h3 class="service-card__title">Ulje i filteri</h3>
+            <p class="service-card__desc">Redovna izmjena motornog ulja i svih filtera. Koristimo certificirana ulja prikladna za vaše vozilo.</p>
+            <span class="service-card__tag">Brza usluga</span>
+          </article>
+
+          <article class="service-card" tabindex="0">
+            <div class="service-card__icon" aria-hidden="true">
+              <span style="font-size:26px;line-height:1;">🛑</span>
+            </div>
+            <h3 class="service-card__title">Kočioni sustav</h3>
+            <p class="service-card__desc">Zamjena disk pločica, diskova i bubnjeva. Izmjena kočione tekućine. Vaša sigurnost je prioritet.</p>
+            <span class="service-card__tag">Sigurnost</span>
+          </article>
+
+          <article class="service-card" tabindex="0">
+            <div class="service-card__icon" aria-hidden="true">
+              <span style="font-size:26px;line-height:1;">❄️</span>
+            </div>
+            <h3 class="service-card__title">Punjenje klime</h3>
+            <p class="service-card__desc">Punjenje i servisiranje klima uređaja. Provjera sustava na curenje i zamjena rashladnog sredstva.</p>
+            <span class="service-card__tag">Klimatizacija</span>
+          </article>
+
+          <article class="service-card" tabindex="0">
+            <div class="service-card__icon" aria-hidden="true">
+              <span style="font-size:26px;line-height:1;">📋</span>
+            </div>
+            <h3 class="service-card__title">Priprema za tehnički pregled</h3>
+            <p class="service-card__desc">Kompletni tehnički pregled i priprema za tehnički, uz preciznu provjeru svih sigurnosnih sustava.</p>
+            <span class="service-card__tag">Pregled</span>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="why-us" id="zasto-mi" aria-labelledby="why-heading">
+      <div class="container">
+        <div class="why-us__inner">
+          <div class="why-us__content">
+            <span class="section-label section-label--light">Zašto RPM?</span>
+            <h2 class="section-title section-title--light" id="why-heading">Servis koji<br />možete vjerovati</h2>
+            <p class="why-us__intro">U Auto servisu RPM svaki klijent dobiva punu pažnju i jasne informacije o stanju svog vozila — bez skrivenih troškova, bez iznenađenja.</p>
+            <ul class="why-us__list" role="list">
+              <li class="why-us__item">
+                <div class="why-us__item-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div>
+                  <strong>Kvalitetni dijelovi</strong>
+                  <p>Koristimo originalne i certificirane zamjenske dijelove.</p>
+                </div>
+              </li>
+              <li class="why-us__item">
+                <div class="why-us__item-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div>
+                  <strong>Stručnost koja se vidi</strong>
+                  <p>Godinama na terenu, stotine uspješno servisiranih vozila.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="why-us__cards">
+            <div class="trust-card">
+              <div class="trust-card__icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="trust-card__number">5.0</div>
+              <div class="trust-card__label">Google ocjena</div>
+            </div>
+            <div class="trust-card">
+              <div class="trust-card__icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <div class="trust-card__number">29</div>
+              <div class="trust-card__label">Recenzija klijenata</div>
+            </div>
+            <div class="trust-card">
+              <div class="trust-card__icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+              </div>
+              <div class="trust-card__number">Sve marke</div>
+              <div class="trust-card__label">Vozila u servisu</div>
+            </div>
+            <div class="trust-card">
+              <div class="trust-card__icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="trust-card__number">Brzo</div>
+              <div class="trust-card__label">Termini bez čekanja</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process" aria-labelledby="process-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Kako radimo</span>
+          <h2 class="section-title" id="process-heading">Jednostavan proces,<br />pouzdani rezultati</h2>
+        </div>
+        <ol class="process__steps" role="list">
+          <li class="process__step">
+            <div class="process__step-num" aria-hidden="true">01</div>
+            <div class="process__step-content">
+              <h3>Kontakt i dogovor</h3>
+              <p>Nazovite nas ili dođite u servis. Dogovaramo termin koji vam odgovara.</p>
+            </div>
+          </li>
+          <li class="process__step">
+            <div class="process__step-num" aria-hidden="true">02</div>
+            <div class="process__step-content">
+              <h3>Pregled vozila</h3>
+              <p>Preciznom dijagnostikom utvrđujemo stanje vozila i potencijalne kvarove.</p>
+            </div>
+          </li>
+          <li class="process__step">
+            <div class="process__step-num" aria-hidden="true">03</div>
+            <div class="process__step-content">
+              <h3>Kalkulacija</h3>
+              <p>Dobivate jasnu ponudu s cijenama materijala i rada — bez skrivenih troškova.</p>
+            </div>
+          </li>
+          <li class="process__step">
+            <div class="process__step-num" aria-hidden="true">04</div>
+            <div class="process__step-content">
+              <h3>Preuzimanje</h3>
+              <p>Vozilo preuzimate u dogovorenom roku, servisno potvrđeno u svemu što je rađeno.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="reviews" id="recenzije" aria-labelledby="reviews-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Što kažu klijenti</span>
+          <h2 class="section-title" id="reviews-heading">Recenzije s Googlea</h2>
+          <div class="reviews__summary" aria-label="Ukupna ocjena: 5.0 od 5, 29 recenzija">
+            <div class="reviews__stars" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="reviews__score">5,0</span>
+            <span class="reviews__count">· 29 recenzija na Googleu</span>
+          </div>
+        </div>
+
+        <div class="reviews__grid">
+
+          <article class="review-card">
+            <header class="review-card__header">
+              <div class="review-card__avatar" aria-hidden="true">DM</div>
+              <div class="review-card__meta">
+                <strong class="review-card__name">Domagoj Markovina</strong>
+                <span class="review-card__date">prije 3 mjeseca</span>
+              </div>
+              <div class="review-card__stars" aria-label="Ocjena: 5 od 5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+            </header>
+            <blockquote class="review-card__text">
+              Rijetko izvrstan servis, stručni i vrlo ugodni ljudi koji zaista vole svoj posao. Pristupačni, objasne sve što rade i podrazumijeva se da je posao odrađen vrhunski. Za apsolutno svaku preporuku. Hvala!
+            </blockquote>
+          </article>
+
+          <article class="review-card">
+            <header class="review-card__header">
+              <div class="review-card__avatar" aria-hidden="true">ZD</div>
+              <div class="review-card__meta">
+                <strong class="review-card__name">ZESHS d.o.o.</strong>
+                <span class="review-card__date">prije 6 mjeseci</span>
+              </div>
+              <div class="review-card__stars" aria-label="Ocjena: 5 od 5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+            </header>
+            <blockquote class="review-card__text">
+              Sve preporuke! Lako smo dogovorili termin montaže i zamjene guma, u točno dogovoreno vrijeme smo bili na redu, bez čekanja. Brza i profesionalna usluga, ljubazno osoblje i uredan prostor. Već dvije godine smo zadovoljni klijent.
+            </blockquote>
+          </article>
+
+          <article class="review-card">
+            <header class="review-card__header">
+              <div class="review-card__avatar" aria-hidden="true">DP</div>
+              <div class="review-card__meta">
+                <strong class="review-card__name">do po</strong>
+                <span class="review-card__date">prije godinu dana</span>
+              </div>
+              <div class="review-card__stars" aria-label="Ocjena: 5 od 5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+            </header>
+            <blockquote class="review-card__text">
+              Auto im je došao sa fuševima i nedovršen, sve su doveli u red — mehanika, atesti. Kad netko uloži trud i vrijeme kako bi sve napravio po pravilima, lako je shvatiti stručnost i profesionalnost usluge te kvalitetu odrađenog posla. Slika govori tisuću riječi.
+            </blockquote>
+          </article>
+
+        </div>
+
+        <div class="reviews__cta">
+          <a href="https://www.google.com/maps/search/Auto+servis+RPM+Samoborska+cesta+250+Zagreb" target="_blank" rel="noopener noreferrer" class="btn btn--secondary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Pogledajte sve recenzije na Googleu
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery" id="galerija" aria-labelledby="gallery-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Naš rad</span>
+          <h2 class="section-title" id="gallery-heading">Galerija</h2>
+          <p class="section-subtitle">Pogled u naš servis — vozila, radovi i prostor.</p>
+        </div>
+        <div class="gallery__grid" id="gallery-grid">
+
+          <button class="gallery__item gallery__item--tall" data-index="0" aria-label="Otvori sliku 1">
+            <img src="photo1.jpg" alt="Auto servis RPM – pogled na servis" loading="lazy" />
+            <div class="gallery__item-overlay" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </div>
+          </button>
+
+          <button class="gallery__item" data-index="1" aria-label="Otvori sliku 2">
+            <img src="photo2.jpg" alt="Auto servis RPM – mehanički rad" loading="lazy" />
+            <div class="gallery__item-overlay" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </div>
+          </button>
+
+          <button class="gallery__item" data-index="2" aria-label="Otvori sliku 3">
+            <img src="photo3.jpg" alt="Auto servis RPM – vozilo na dizalici" loading="lazy" />
+            <div class="gallery__item-overlay" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </div>
+          </button>
+
+          <button class="gallery__item" data-index="3" aria-label="Otvori sliku 4">
+            <img src="photo4.jpg" alt="Auto servis RPM – prostor servisa" loading="lazy" />
+            <div class="gallery__item-overlay" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </div>
+          </button>
+
+          <button class="gallery__item gallery__item--wide" data-index="4" aria-label="Otvori sliku 5">
+            <img src="photo5.jpg" alt="Auto servis RPM – vanjski pogled" loading="lazy" />
+            <div class="gallery__item-overlay" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </div>
+          </button>
+
+          <button class="gallery__item" data-index="5" aria-label="Otvori sliku 6">
+            <img src="photo6.jpg" alt="Auto servis RPM – detalj s rada" loading="lazy" />
+            <div class="gallery__item-overlay" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            </div>
+          </button>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galerija slika" hidden>
+      <button class="lightbox__close" id="lightbox-close" aria-label="Zatvori">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <button class="lightbox__prev" id="lightbox-prev" aria-label="Prethodna slika">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="lightbox__img-wrap">
+        <img class="lightbox__img" id="lightbox-img" src="" alt="" />
+      </div>
+      <button class="lightbox__next" id="lightbox-next" aria-label="Sljedeća slika">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="lightbox__counter" id="lightbox-counter" aria-live="polite"></div>
+    </div>
+
+    <!-- CTA BANNER -->
+    <section class="cta-banner" aria-labelledby="cta-heading">
+      <div class="container cta-banner__inner">
+        <div class="cta-banner__content">
+          <h2 class="cta-banner__title" id="cta-heading">Vozilo čeka — ne čekajte vi.</h2>
+          <p class="cta-banner__sub">Zakažite termin danas ili nas jednostavno nazovite.</p>
+        </div>
+        <div class="cta-banner__actions">
+          <a href="#kontakt" class="btn btn--primary btn--lg">Zakažite termin</a>
+          <a href="tel:+385923894126" class="btn btn--outline btn--lg">092 389 4126</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="kontakt" aria-labelledby="contact-heading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Pronađite nas</span>
+          <h2 class="section-title" id="contact-heading">Kontakt i radno vrijeme</h2>
+        </div>
+        <div class="contact__grid">
+
+          <div class="contact__info">
+            <address class="contact__details">
+              <div class="contact__item">
+                <div class="contact__item-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                  <strong>Adresa</strong>
+                  <span>Samoborska cesta 250, 10000, Zagreb</span>
+                </div>
+              </div>
+              <div class="contact__item">
+                <div class="contact__item-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.25h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.93a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div>
+                  <strong>Telefon</strong>
+                  <a href="tel:+385923894126">092 389 4126</a>
+                </div>
+              </div>
+              <div class="contact__item">
+                <div class="contact__item-icon" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </div>
+                <div>
+                  <strong>Instagram</strong>
+                  <a href="https://www.instagram.com/autoservisrpm/" target="_blank" rel="noopener noreferrer">@autoservisrpm</a>
+                </div>
+              </div>
+            </address>
+
+            <div class="hours">
+              <h3 class="hours__title">Radno vrijeme</h3>
+              <dl class="hours__list">
+                <div class="hours__row">
+                  <dt>Ponedjeljak – Petak</dt>
+                  <dd>08:00 – 16:00</dd>
+                </div>
+                <div class="hours__row hours__row--closed">
+                  <dt>Subota – Nedjelja</dt>
+                  <dd>Zatvoreno</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          <div class="contact__form-wrap">
+            <form class="contact-form" id="contact-form" novalidate aria-label="Obrazac za kontakt">
+              <h3 class="contact-form__title">Pošaljite upit</h3>
+              <div class="form-group">
+                <label for="name">Ime i prezime <span aria-label="obavezno" class="required">*</span></label>
+                <input type="text" id="name" name="name" autocomplete="name" required placeholder="Vaše ime" />
+                <span class="form-error" role="alert" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="phone">Telefon <span aria-label="obavezno" class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" required placeholder="092 ..." />
+                <span class="form-error" role="alert" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label for="vehicle">Vozilo (marka i model)</label>
+                <input type="text" id="vehicle" name="vehicle" placeholder="npr. VW Golf 1.9 TDI" />
+              </div>
+              <div class="form-group">
+                <label for="message">Opis kvara / usluge <span aria-label="obavezno" class="required">*</span></label>
+                <textarea id="message" name="message" rows="4" required placeholder="Opišite što trebate..."></textarea>
+                <span class="form-error" role="alert" aria-live="polite"></span>
+              </div>
+              <button type="submit" class="btn btn--primary btn--full" id="submit-btn">
+                <span class="btn-text">Pošaljite upit</span>
+                <svg class="btn-spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+              </button>
+              <p class="form-success" id="form-success" role="status" aria-live="polite" hidden>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Hvala! Javit ćemo vam se uskoro.
+              </p>
+            </form>
+          </div>
+
+          <div class="contact__map">
+            <iframe
+              title="Lokacija Auto servis RPM – Samoborska cesta 250, Zagreb"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=15.8500%2C45.7750%2C15.8800%2C45.7950&layer=mapnik&marker=45.7873%2C15.8648"
+              width="100%"
+              height="320"
+              style="border:0;"
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+            <a
+              href="https://www.google.com/maps/search/Auto+servis+RPM+Samoborska+cesta+250+Zagreb"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="map-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Otvori u Google Maps
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="#" class="logo" aria-label="Auto Servis RPM – na vrh">
+          <img src="logo-rpm-cropped.png" alt="RPM Auto Servis" class="logo__img" />
+        </a>
+        <p>Profesionalna automehaničarska radionica u Zagrebu. Vaše vozilo, naša odgovornost.</p>
+        <a href="https://www.instagram.com/autoservisrpm/" target="_blank" rel="noopener noreferrer" class="footer__social" aria-label="Pratite nas na Instagramu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          @autoservisrpm
+        </a>
+      </div>
+      <nav class="footer__nav" aria-label="Navigacija u footeru">
+        <h4>Usluge</h4>
+        <ul>
+          <li><a href="#usluge">Dijagnostika</a></li>
+          <li><a href="#usluge">Mehanički radovi</a></li>
+          <li><a href="#usluge">Gume</a></li>
+          <li><a href="#usluge">Kočnice</a></li>
+          <li><a href="#usluge">Punjenje klime</a></li>
+          <li><a href="#usluge">Priprema za tehnički pregled</a></li>
+        </ul>
+      </nav>
+      <div class="footer__contact">
+        <h4>Kontakt</h4>
+        <address>
+          <p>Samoborska cesta 250, 10000, Zagreb</p>
+          <a href="tel:+385923894126">092 389 4126</a>
+        </address>
+        <div class="footer__hours">
+          <p>Pon – Pet: 08:00 – 16:00</p>
+          <p>Sub – Ned: Zatvoreno</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <p>© 2025 Auto Servis RPM, Zagreb. Sva prava pridržana.</p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="#" class="back-to-top" id="back-to-top" aria-label="Povratak na vrh">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
+  </a>
+
+  <script src="main.js"></script>
+</body>
+</html>
