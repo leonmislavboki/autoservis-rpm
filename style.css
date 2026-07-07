@@ -902,6 +902,7 @@ address { font-style: normal; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
+.form-success[hidden] { display: none; }
 .form-success {
   display: flex;
   align-items: center;
