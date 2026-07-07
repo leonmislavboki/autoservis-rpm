@@ -134,8 +134,25 @@ form.addEventListener('submit', async (e) => {
   submitBtn.classList.add('btn--loading');
   submitBtn.disabled = true;
 
-  /* Simulate async submission (replace with real endpoint) */
-  await new Promise(r => setTimeout(r, 1200));
+  const data = new FormData(form);
+  data.append('access_key', '52231398-70ba-48c4-be7e-4c6a4e311297');
+  data.append('email', 'autoservisrpm@gmail.com');
+  data.append('subject', 'Novi upit — Auto Servis RPM');
+  data.append('from_name', 'RPM Web Kontakt Forma');
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: data
+    });
+    const json = await res.json();
+    if (!json.success) throw new Error();
+  } catch {
+    submitBtn.classList.remove('btn--loading');
+    submitBtn.disabled = false;
+    alert('Greška pri slanju. Molimo nazovite nas na 092 389 4126.');
+    return;
+  }
 
   submitBtn.classList.remove('btn--loading');
   submitBtn.disabled = false;
