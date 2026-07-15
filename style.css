@@ -996,7 +996,10 @@ address { font-style: normal; }
 .footer__hours { display: flex; flex-direction: column; gap: 4px; }
 
 .footer__bottom { padding-block: 20px; }
-.footer__bottom p { font-size: .8125rem; color: rgba(255,255,255,.25); text-align: center; }
+.footer__bottom p { font-size: .8125rem; color: rgba(255,255,255,.25); }
+.footer__bottom-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.footer__credit { font-size: .8125rem; color: rgba(255,255,255,.25); text-decoration: none; transition: color .2s ease; }
+.footer__credit:hover { color: rgba(255,255,255,.6); }
 
 /* ── Back to top ── */
 .back-to-top {
