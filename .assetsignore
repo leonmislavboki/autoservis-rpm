@@ -2,3 +2,4 @@
 .DS_Store
 .assetsignore
 .gitignore
+wrangler.jsonc
