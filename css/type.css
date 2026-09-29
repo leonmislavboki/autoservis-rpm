@@ -60,6 +60,7 @@
 
 /* --- osnova --------------------------------------------------------------- */
 body {
+  margin: 0;   /* preglednik daje 8px; na tamnom zaglavlju to je svijetli okvir */
   font-family: var(--font-text);
   font-size: var(--type-0);
   line-height: var(--leading-body);
