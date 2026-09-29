@@ -1,0 +1,132 @@
+/* ==========================================================================
+   legal.css — zajednički stil pravnih podstranica (privatnost, kolačići, uvjeti)
+   Namjerno tih i čitljiv. Ako stranica ima svoj font i paletu, prepiši samo
+   varijable ispod ili linkaj glavni CSS stranice prije ovoga.
+   ========================================================================== */
+
+:root {
+  --lg-bg: #fbf9f6;
+  --lg-surface: #ffffff;
+  --lg-fg: #17140f;
+  --lg-muted: #6b625c;
+  --lg-line: #e2ddd6;
+  --lg-accent: #1c1a17;
+  --lg-measure: 38rem;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--lg-bg);
+  color: var(--lg-fg);
+  font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+}
+
+.lg-wrap {
+  max-width: var(--lg-measure);
+  margin: 0 auto;
+  padding: 3rem 1.25rem 5rem;
+}
+
+.lg-back {
+  display: inline-block;
+  margin-bottom: 2.5rem;
+  color: var(--lg-muted);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.lg-back:hover { color: var(--lg-fg); text-decoration: underline; }
+
+h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 1.35rem + 1.6vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 650;
+}
+
+.lg-meta {
+  margin: 0 0 2.5rem;
+  color: var(--lg-muted);
+  font-size: 0.875rem;
+}
+
+h2 {
+  margin: 2.75rem 0 0.75rem;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+  font-weight: 640;
+}
+
+h3 {
+  margin: 1.75rem 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 620;
+}
+
+p, li { color: #2d2823; }
+
+ul, ol { padding-left: 1.25rem; }
+li { margin: 0.375rem 0; }
+
+a { color: var(--lg-accent); text-underline-offset: 0.2em; }
+
+.lg-card {
+  margin: 1.25rem 0;
+  padding: 1.25rem 1.375rem;
+  background: var(--lg-surface);
+  border: 1px solid var(--lg-line);
+  border-radius: 4px;
+}
+
+.lg-card p:first-child { margin-top: 0; }
+.lg-card p:last-child { margin-bottom: 0; }
+
+.lg-scroll { overflow-x: auto; margin: 1.25rem 0; }
+
+table {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  background: var(--lg-surface);
+}
+
+th, td {
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--lg-line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th { font-weight: 600; background: #f4f0ea; }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.875em;
+}
+
+.lg-foot {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--lg-line);
+  color: var(--lg-muted);
+  font-size: 0.8125rem;
+}
+
+.lg-foot a { color: inherit; }
+
+.lg-demo {
+  margin: 0 0 2rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--lg-line);
+  border-left: 3px solid var(--lg-accent);
+  background: var(--lg-surface);
+  font-size: 0.8125rem;
+  color: var(--lg-muted);
+}

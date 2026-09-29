@@ -1,0 +1,202 @@
+/* ==========================================================================
+   interactions.css — hover i pointer mikro-interakcije, bez ovisnosti
+   Pair s interactions.js (samo za efekte koji traže mjerenje ili stanje).
+
+   Tehnike i konstante preuzete iz Kokonut UI (MIT) i portane na vanilla —
+   vidi references/kokonut-ui.md.
+   ========================================================================== */
+
+:root {
+  --ix-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ix-fast: 180ms;
+  --ix-base: 300ms;
+  --ix-slow: 700ms;
+  --ix-accent: currentColor;
+}
+
+/* --- 1. shimmer sweep ----------------------------------------------------
+   Nakošena traka svjetla prelazi preko elementa na hover. Bez JS-a.
+   Element mora imati position: relative i overflow: hidden.
+   ------------------------------------------------------------------------ */
+[data-ix~="shimmer"] {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+[data-ix~="shimmer"]::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 55%;
+  transform: translateX(-100%) skewX(-12deg);
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--ix-shimmer, rgba(255, 255, 255, 0.28)),
+    transparent
+  );
+  transition: transform var(--ix-slow) ease-out;
+  pointer-events: none;
+  z-index: 1;
+}
+[data-ix~="shimmer"]:hover::after,
+[data-ix~="shimmer"]:focus-visible::after {
+  transform: translateX(280%) skewX(-12deg);
+}
+
+/* --- 2. accent linija po dnu ---------------------------------------------
+   Raste s lijeva na hover. Jeftina, a čini karticu namjernom.
+   ------------------------------------------------------------------------ */
+[data-ix~="accent-line"] { position: relative; }
+[data-ix~="accent-line"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--ix-accent), transparent);
+  transition: width 500ms var(--ix-ease);
+  pointer-events: none;
+}
+[data-ix~="accent-line"]:hover::before { width: 100%; }
+
+/* --- 3. slide-text gumb ---------------------------------------------------
+   Tekst klizne gore, kopija dolazi odozdo. Markup:
+   <a data-ix="slide-text"><span data-ix-text="Kontakt">Kontakt</span></a>
+   ------------------------------------------------------------------------ */
+[data-ix~="slide-text"] { overflow: hidden; display: inline-flex; }
+[data-ix~="slide-text"] [data-ix-text] {
+  position: relative;
+  display: inline-block;
+  transition: transform 420ms var(--ix-ease);
+}
+[data-ix~="slide-text"] [data-ix-text]::after {
+  content: attr(data-ix-text);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+}
+[data-ix~="slide-text"]:hover [data-ix-text],
+[data-ix~="slide-text"]:focus-visible [data-ix-text] {
+  transform: translateY(-100%);
+}
+
+/* --- 4. flip kartica ------------------------------------------------------
+   <div data-ix="flip"><div data-ix-front>…</div><div data-ix-back>…</div></div>
+   ------------------------------------------------------------------------ */
+[data-ix~="flip"] {
+  position: relative;
+  perspective: 1200px;
+}
+[data-ix~="flip"] > [data-ix-front],
+[data-ix~="flip"] > [data-ix-back] {
+  backface-visibility: hidden;
+  transition: transform 600ms var(--ix-ease);
+  transform-style: preserve-3d;
+}
+[data-ix~="flip"] > [data-ix-back] {
+  position: absolute;
+  inset: 0;
+  transform: rotateY(180deg);
+}
+[data-ix~="flip"]:hover > [data-ix-front],
+[data-ix~="flip"]:focus-within > [data-ix-front] { transform: rotateY(-180deg); }
+[data-ix~="flip"]:hover > [data-ix-back],
+[data-ix~="flip"]:focus-within > [data-ix-back] { transform: rotateY(0deg); }
+
+/* --- 5. tilt + glow (JS postavlja varijable) ------------------------------
+   --ix-rx / --ix-ry rotacija, --ix-mx / --ix-my pozicija pokazivača u %.
+   ------------------------------------------------------------------------ */
+[data-ix~="tilt"] {
+  position: relative;
+  transform: perspective(900px) rotateX(var(--ix-rx, 0deg)) rotateY(var(--ix-ry, 0deg));
+  transition: transform 220ms var(--ix-ease), opacity var(--ix-fast) ease-out;
+  will-change: transform;
+}
+[data-ix~="tilt"][data-ix-active] { transition: transform 80ms linear; }
+
+[data-ix~="glow"] { position: relative; isolation: isolate; }
+[data-ix~="glow"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse at var(--ix-mx, 50%) var(--ix-my, 50%),
+    var(--ix-glow, rgba(255, 255, 255, 0.18)),
+    transparent 65%
+  );
+  opacity: 0;
+  transition: opacity var(--ix-base) ease-out;
+  pointer-events: none;
+  z-index: 0;
+}
+[data-ix~="glow"]:hover::before { opacity: 1; }
+
+/* --- 6. focus dimming ----------------------------------------------------
+   Kad je jedna kartica u fokusu, ostale se povuku. JS označava .ix-dim.
+   ------------------------------------------------------------------------ */
+.ix-dim {
+  opacity: 0.5;
+  transform: scale(0.96);
+  transition: opacity var(--ix-fast) ease-out, transform var(--ix-fast) ease-out;
+}
+
+/* --- 7. hold-to-confirm --------------------------------------------------- */
+[data-ix~="hold"] {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  user-select: none;
+}
+[data-ix~="hold"]::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 100%;
+  transform: scaleX(var(--ix-hold, 0));
+  transform-origin: 0 50%;
+  background: var(--ix-hold-fill, rgba(0, 0, 0, 0.12));
+  transition: transform 80ms linear;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* --- 8. scroll-text ------------------------------------------------------
+   Lista riječi/redaka gdje aktivni dobiva punu boju dok skrolaš.
+   ------------------------------------------------------------------------ */
+[data-ix~="scroll-text"] > * {
+  color: var(--ix-muted, rgba(0, 0, 0, 0.25));
+  transition: color 400ms var(--ix-ease), opacity 400ms var(--ix-ease);
+}
+[data-ix~="scroll-text"] > .ix-active { color: inherit; }
+
+/* --- 9. press ------------------------------------------------------------
+   Jedva vidljiv otpor na klik. Stavi na svaki gumb.
+   ------------------------------------------------------------------------ */
+[data-ix~="press"] { transition: transform 120ms var(--ix-ease); }
+[data-ix~="press"]:active { transform: scale(0.97); }
+
+/* --- reduced motion ------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  [data-ix]::after,
+  [data-ix]::before,
+  [data-ix],
+  [data-ix] * {
+    transition: none !important;
+    animation: none !important;
+  }
+  [data-ix~="tilt"] { transform: none !important; }
+  .ix-dim { opacity: 1; transform: none; }
+}
+
+/* Na dodirnim ekranima hover efekti nemaju smisla — ugasi ih da ne ostanu
+   zaglavljeni u hover stanju nakon tapa. */
+@media (hover: none) {
+  [data-ix~="shimmer"]::after { display: none; }
+  [data-ix~="tilt"] { transform: none !important; }
+  [data-ix~="glow"]::before { display: none; }
+}

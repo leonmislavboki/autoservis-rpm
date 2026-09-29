@@ -1,0 +1,177 @@
+/* ==========================================================================
+   finish.css — završni sloj
+   Sve što se pojedinačno ne primijeti, a zajedno je razlika između
+   "napravljeno" i "dovršeno". Uvezi ZADNJI, nakon svih drugih stilova.
+
+   Očekuje tokene iz color-skill (--border-focus, --solid, --text, --surface…).
+   Ako ih nema, fallbackovi u var() drže stranicu na životu.
+   ========================================================================== */
+
+/* --- 1. sidra ispod sticky headera ----------------------------------------
+   Klik na #kontakt inače završi s naslovom skrivenim pod headerom.
+   -------------------------------------------------------------------------- */
+:root { --header-h: 72px; }
+:target,
+[id] { scroll-margin-top: calc(var(--header-h) + 16px); }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* --- 2. fokus ------------------------------------------------------------
+   Vidljiv za tipkovnicu, nevidljiv za miš. Nikad `outline: none` bez zamjene.
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--border-focus, currentColor);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* Skip link — prva stvar u <body>, skrivena dok se ne fokusira. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 1000;
+  padding: 12px 18px;
+  background: var(--solid, #111);
+  color: var(--on-solid, #fff);
+  border-radius: 0 0 8px 0;
+}
+.skip-link:focus { left: 0; }
+
+/* --- 3. selekcija i karet -------------------------------------------------- */
+::selection {
+  background: var(--select-bg, rgba(0, 0, 0, 0.12));
+  color: inherit;
+}
+:root {
+  accent-color: var(--solid, #111);   /* checkbox, radio, range, progress */
+  caret-color: var(--solid, #111);
+  color-scheme: light dark;
+}
+
+/* --- 4. stabilan layout ---------------------------------------------------
+   scrollbar-gutter sprječava pomak cijele stranice kad se pojavi scrollbar
+   (npr. kad se otvori modal ili dulja stranica).
+   -------------------------------------------------------------------------- */
+html {
+  scrollbar-gutter: stable;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Duge riječi, URL-ovi i e-mail adrese ne smiju probiti kutiju. */
+body { overflow-wrap: break-word; }
+
+/* Slika nikad ne izlazi iz okvira i ne uzrokuje pomak dok se učitava
+   (width/height u HTML-u + ovo = rezerviran prostor). */
+img, svg, video, canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+img { background: var(--surface-sunken, #f2f2f0); }   /* podloga dok se učitava */
+
+/* --- 5. dodirne mete -------------------------------------------------------
+   Sve klikabilno minimalno 44x44 CSS px na dodiru.
+   -------------------------------------------------------------------------- */
+@media (pointer: coarse) {
+  a[href], button, [role="button"], input[type="submit"], label[for] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  a, button { -webkit-tap-highlight-color: transparent; }
+}
+
+/* --- 6. stanja formi ------------------------------------------------------
+   Prazno, u fokusu, s greškom, onemogućeno, u slanju, poslano.
+   Forma bez ovih stanja je najčešći nedovršeni dio klijentske stranice.
+   -------------------------------------------------------------------------- */
+input, textarea, select, button { font: inherit; color: inherit; }
+
+input:disabled, textarea:disabled, select:disabled, button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Greška se prikazuje tek nakon što je korisnik pokušao — :user-invalid,
+   ne :invalid. Inače polje svijetli crveno prije nego je išta upisano. */
+input:user-invalid, textarea:user-invalid, select:user-invalid {
+  border-color: var(--error, #b42318);
+  background: var(--error-bg, #fef3f2);
+}
+input:user-invalid + .field-error { display: block; }
+.field-error {
+  display: none;
+  color: var(--error, #b42318);
+  font-size: 0.85em;
+  margin-top: 6px;
+}
+
+/* Obavezno polje — zvjezdica, ali i stvarna informacija za čitač ekrana. */
+.field-required::after {
+  content: " *";
+  color: var(--error, #b42318);
+}
+
+/* Gumb dok traje slanje. Stavi aria-busy="true" na formu. */
+[aria-busy="true"] { cursor: progress; }
+[aria-busy="true"] button[type="submit"] { pointer-events: none; opacity: 0.7; }
+
+/* Poruka o uspjehu mora biti u aria-live području da je čitač ekrana pročita. */
+.form-status { min-height: 1.5em; }
+.form-status[data-state="ok"] { color: var(--ok, #067647); }
+.form-status[data-state="error"] { color: var(--error, #b42318); }
+
+/* --- 7. sitni elementi koji se zaborave ------------------------------------ */
+hr {
+  border: 0;
+  border-top: 1px solid var(--border, #e3e6ea);
+  margin-block: var(--space-l, 2rem);
+}
+
+::marker { color: var(--text-subtle, #9aa1a9); }
+
+details > summary { cursor: pointer; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+
+table { border-collapse: collapse; width: 100%; }
+th { text-align: left; font-weight: 600; }
+td, th { padding: 10px 12px; border-bottom: 1px solid var(--border, #e3e6ea); }
+
+/* Tablice i blokovi koda smiju skrolati vodoravno — stranica ne smije. */
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Vizualno skriveno, ali dostupno čitaču ekrana. */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* --- 8. reduced motion, globalno ------------------------------------------
+   Sigurnosna mreža za sve što je promaklo pojedinačnim pravilima.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --- 9. print -------------------------------------------------------------
+   Klijenti tiskaju cjenike i kontakt stranice.
+   -------------------------------------------------------------------------- */
+@media print {
+  nav, footer, .no-print, .skip-link { display: none !important; }
+  [data-sm] { display: revert !important; opacity: 1 !important; transform: none !important; }
+  body { background: #fff; color: #000; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; }
+  h1, h2, h3 { break-after: avoid; }
+  table, figure, .card { break-inside: avoid; }
+}

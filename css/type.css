@@ -1,0 +1,147 @@
+/* ==========================================================================
+   type.css — tipografski sustav: fluidna skala, ritam, brojke
+   Izračunato Utopia metodom: 360px/16px -> 1240px/18px, omjer 1.2 -> 1.25.
+   Nijedna vrijednost nije procijenjena; sve su izvedene iz te formule.
+
+   Uvoz PRIJE ostalog CSS-a, pa prepiši --font-display i --font-text.
+   ========================================================================== */
+
+:root {
+  /* --- obitelji ---------------------------------------------------------
+     Zamijeni stvarnim fontovima projekta. Fallback niz je namjerno dug:
+     stranica mora izgledati podnošljivo i prije nego font stigne.
+     -------------------------------------------------------------------- */
+  --font-display: "Cabinet Grotesk", "Switzer fallback", Impact, "Arial Black", sans-serif;
+  --font-text: "Switzer", "Switzer fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* --- fluidna skala veličina ------------------------------------------- */
+  --type-n2: clamp(0.694rem, 0.6840rem + 0.0465vw, 0.720rem);   /* 11.1 -> 11.5px */
+  --type-n1: clamp(0.833rem, 0.8061rem + 0.1212vw, 0.900rem);   /* 13.3 -> 14.4px */
+  --type-0:  clamp(1.000rem, 0.9489rem + 0.2273vw, 1.125rem);   /* 16.0 -> 18.0px */
+  --type-1:  clamp(1.200rem, 1.1156rem + 0.3750vw, 1.406rem);   /* 19.2 -> 22.5px */
+  --type-2:  clamp(1.440rem, 1.3100rem + 0.5778vw, 1.758rem);   /* 23.0 -> 28.1px */
+  --type-3:  clamp(1.728rem, 1.5360rem + 0.8532vw, 2.197rem);   /* 27.6 -> 35.2px */
+  --type-4:  clamp(2.074rem, 1.7983rem + 1.2236vw, 2.747rem);   /* 33.2 -> 43.9px */
+  --type-5:  clamp(2.488rem, 2.1018rem + 1.7180vw, 3.433rem);   /* 39.8 -> 54.9px */
+  --type-6:  clamp(2.986rem, 2.4519rem + 2.3737vw, 4.292rem);   /* 47.8 -> 68.7px */
+
+  /* --- fluidni razmaci, ista metoda -------------------------------------
+     Kad razmaci rastu istim ritmom kao tekst, stranica se ne raspada
+     između breakpointa i ne treba gomila media queryja.
+     -------------------------------------------------------------------- */
+  --space-3xs: clamp(0.250rem, 0.2244rem + 0.1136vw, 0.313rem);
+  --space-2xs: clamp(0.500rem, 0.4744rem + 0.1136vw, 0.563rem);
+  --space-xs:  clamp(0.750rem, 0.6989rem + 0.2273vw, 0.875rem);
+  --space-s:   clamp(1.000rem, 0.9489rem + 0.2273vw, 1.125rem);
+  --space-m:   clamp(1.500rem, 1.4233rem + 0.3409vw, 1.688rem);
+  --space-l:   clamp(2.000rem, 1.8977rem + 0.4545vw, 2.250rem);
+  --space-xl:  clamp(3.000rem, 2.8466rem + 0.6818vw, 3.375rem);
+  --space-2xl: clamp(4.000rem, 3.7955rem + 0.9091vw, 4.500rem);
+  --space-3xl: clamp(6.000rem, 5.6932rem + 1.3636vw, 6.750rem);
+
+  /* --- ritam ------------------------------------------------------------
+     Pravilo: što je tekst veći, to mu treba manji line-height i uži tracking.
+     -------------------------------------------------------------------- */
+  --leading-display: 0.95;
+  --leading-tight: 1.1;
+  --leading-heading: 1.2;
+  --leading-body: 1.6;
+  --leading-loose: 1.75;
+
+  --tracking-display: -0.035em;
+  --tracking-heading: -0.02em;
+  --tracking-body: 0em;
+  --tracking-caps: 0.14em;
+
+  --measure: 66ch;          /* tekst */
+  --measure-display: 18ch;  /* naslovi */
+}
+
+/* --- osnova --------------------------------------------------------------- */
+body {
+  font-family: var(--font-text);
+  font-size: var(--type-0);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+  /* Uključi prave ligature i kerning; isključi nasumične alternate. */
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- naslovi ---------------------------------------------------------------
+   text-wrap: balance sprječava siroče od jedne riječi u zadnjem retku.
+   Radi samo do ~6 redaka, zato ide na naslove a ne na tekst.
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  text-wrap: balance;
+  max-width: var(--measure-display);
+  margin-block: 0 var(--space-s);
+}
+
+h1 { font-size: var(--type-6); line-height: var(--leading-display); letter-spacing: var(--tracking-display); }
+h2 { font-size: var(--type-4); line-height: var(--leading-tight); }
+h3 { font-size: var(--type-2); }
+h4 { font-size: var(--type-1); }
+
+p, li {
+  max-width: var(--measure);
+  /* pretty izbjegava siroče u zadnjem retku odlomka, bez balance troška */
+  text-wrap: pretty;
+  margin-block: 0 var(--space-s);
+}
+
+/* --- pomoćne klase --------------------------------------------------------- */
+.t-lead { font-size: var(--type-1); line-height: 1.5; }
+.t-small { font-size: var(--type-n1); }
+.t-micro { font-size: var(--type-n2); }
+
+/* Verzal se NIKAD ne piše bez proširenog trackinga — inače se slova lijepe. */
+.t-caps {
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-caps);
+  font-size: var(--type-n2);
+  font-weight: 600;
+}
+
+/* Cijene, brojači i tablice: brojke iste širine da ne poskakuju. */
+.t-nums, table, .price, [data-sm-count] {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Optičko poravnanje: veliki naslov u kutiji izgleda uvučeno jer slovo
+   ima bočni razmak. Povuci ga natrag. */
+.t-optical { margin-left: -0.06em; }
+
+/* Mjera za tekst koji stoji sam, npr. uvodni odlomak. */
+.t-measure { max-width: var(--measure); }
+.t-measure-narrow { max-width: 48ch; }
+
+/* --- fallback bez CLS-a ----------------------------------------------------
+   Dok se font učitava, sustavni font zauzima drugu širinu i tekst poskoči.
+   size-adjust izjednači metrike. Vrijednosti se mjere po fontu (vidi SKILL.md).
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Switzer fallback";
+  src: local("Arial");
+  size-adjust: 97%;
+  ascent-override: 96%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+
+/* --- print -----------------------------------------------------------------
+   Klijenti tiskaju cjenike. Jedan blok, pet minuta, izgleda profesionalno.
+   -------------------------------------------------------------------------- */
+@media print {
+  body { font-size: 11pt; line-height: 1.45; color: #000; background: #fff; }
+  h1 { font-size: 22pt; }
+  h2 { font-size: 16pt; }
+  a::after { content: " (" attr(href) ")"; font-size: 9pt; word-break: break-all; }
+  nav, footer, .no-print { display: none; }
+}

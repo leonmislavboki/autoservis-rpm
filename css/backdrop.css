@@ -1,0 +1,300 @@
+/* backdrop.css — pozadinski sloj: mesh gradijenti, uzorci, zrno, zrake, rub koji svijetli.
+   ===========================================================================
+   Sve se uključuje preko data-bd atributa, kombinira razmakom:
+
+     <section data-bd="mesh grain">
+     <div class="card" data-bd="beam">
+     <section data-bd="dots">
+
+   Ništa ovdje ne dira sadržaj — sve je ::before/::after na pozicioniranom
+   elementu, pointer-events: none, iza teksta.
+
+   Boje dolaze iz color.css tokena. Ako projekt nema color.css, postavi
+   --bd-1..--bd-4 ručno na elementu.
+   =========================================================================== */
+
+[data-bd] { position: relative; isolation: isolate; }
+[data-bd]::before,
+[data-bd]::after { pointer-events: none; }
+
+:root {
+  /* fallback ako color.css nije učitan */
+  --bd-1: var(--surface, #0e1113);
+  --bd-2: var(--accent-9, #1d4ed8);
+  --bd-3: var(--accent-7, #7c3aed);
+  --bd-4: var(--accent-11, #0ea5e9);
+  --bd-fade: 62%;          /* koliko daleko seže svaka mrlja */
+  --bd-grain: 0.06;        /* jačina zrna */
+  --bd-pattern: color-mix(in oklab, currentColor 12%, transparent);
+  --bd-gap: 22px;          /* korak uzorka */
+}
+
+/* =========================================================================
+   1. MESH GRADIJENT — statičan, bez JS-a
+   -------------------------------------------------------------------------
+   Ovo je ono što meshgradient.com prodaje kao export: nekoliko radijalnih
+   mrlja preko pune boje. Ključ nije broj mrlja nego to da su sve iz ISTE
+   obitelji boja — četiri nasumične boje daju onaj AI-purple-blue izgled
+   koji je u CLAUDE.md zabranjen.
+
+   Pravilo: jedna boja = pozadina, ostale su njene varijante s pomakom
+   nijanse od najviše 40 stupnjeva. Zasićenje niže nego što ti se čini.
+   ========================================================================= */
+
+[data-bd~="mesh"] {
+  background-color: var(--bd-1);
+  background-image:
+    radial-gradient(at 18% 22%, var(--bd-2) 0, transparent var(--bd-fade)),
+    radial-gradient(at 82% 12%, var(--bd-3) 0, transparent var(--bd-fade)),
+    radial-gradient(at 72% 78%, var(--bd-4) 0, transparent var(--bd-fade)),
+    radial-gradient(at 10% 88%, var(--bd-3) 0, transparent var(--bd-fade));
+  background-attachment: fixed;
+}
+
+/* mekša, editorial varijanta — dvije mrlje, jedva vidljive */
+[data-bd~="mesh-soft"] {
+  background-color: var(--bd-1);
+  background-image:
+    radial-gradient(70% 55% at 15% 0%, color-mix(in oklab, var(--bd-2) 45%, transparent) 0, transparent 70%),
+    radial-gradient(60% 50% at 95% 30%, color-mix(in oklab, var(--bd-4) 35%, transparent) 0, transparent 70%);
+}
+
+/* mesh koji lagano diše — samo za hero, nikad za cijelu stranicu */
+@media (prefers-reduced-motion: no-preference) {
+  [data-bd~="mesh-drift"] {
+    background-size: 160% 160%;
+    animation: bd-drift 28s ease-in-out infinite alternate;
+  }
+}
+@keyframes bd-drift {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
+/* =========================================================================
+   2. ZRNO
+   -------------------------------------------------------------------------
+   Jedini pošten način da gradijent ne izgleda kao plastika. feTurbulence u
+   data URI-ju, bez ijednog requesta. Jačina ide na 0.04-0.08; preko 0.12
+   izgleda kao pokvaren ekran.
+   ========================================================================= */
+
+[data-bd~="grain"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: var(--bd-grain);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* na svijetloj pozadini overlay pojede zrno — koristi multiply */
+[data-bd~="grain-light"]::after { mix-blend-mode: multiply; opacity: calc(var(--bd-grain) * 1.4); }
+
+/* =========================================================================
+   3. UZORCI — točke, mreža, pruge, saće
+   -------------------------------------------------------------------------
+   Nasljeđuju currentColor, pa se boja postavlja na roditelju i uzorak se
+   sam uklopi u temu. Uvijek s maskom koja blijedi prema rubovima, inače
+   uzorak siječe sekciju kao tapeta.
+   ========================================================================= */
+
+[data-bd~="dots"]::before,
+[data-bd~="grid"]::before,
+[data-bd~="stripes"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 78%);
+          mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 30%, transparent 78%);
+}
+
+[data-bd~="dots"]::before {
+  background-image: radial-gradient(var(--bd-pattern) 1.2px, transparent 1.2px);
+  background-size: var(--bd-gap) var(--bd-gap);
+}
+
+[data-bd~="grid"]::before {
+  background-image:
+    linear-gradient(to right, var(--bd-pattern) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bd-pattern) 1px, transparent 1px);
+  background-size: var(--bd-gap) var(--bd-gap);
+}
+
+[data-bd~="stripes"]::before {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--bd-pattern) 0 1px,
+    transparent 1px calc(var(--bd-gap) / 2)
+  );
+}
+
+/* mreža u perspektivi — tehnički/blueprint smjer.
+   Jedini uzorak koji smije ostati vidljiv do ruba jer perspektiva sama blijedi. */
+[data-bd~="grid-floor"]::before {
+  content: "";
+  position: absolute;
+  inset: 40% 0 0 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, var(--bd-pattern) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--bd-pattern) 1px, transparent 1px);
+  background-size: 48px 48px;
+  transform: perspective(360px) rotateX(58deg);
+  transform-origin: top center;
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 72%);
+          mask-image: linear-gradient(to bottom, #000, transparent 72%);
+}
+
+/* =========================================================================
+   4. ZRAKE SVJETLA
+   -------------------------------------------------------------------------
+   Konusni gradijent s neparnim razmacima, maskiran prema dolje. Radi samo
+   na tamnoj pozadini. Na svijetloj izgleda kao greška u renderu.
+   ========================================================================= */
+
+[data-bd~="rays"]::before {
+  content: "";
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 90%;
+  z-index: -1;
+  background: conic-gradient(
+    from 190deg at 50% 0%,
+    transparent 0deg 8deg,
+    color-mix(in oklab, var(--bd-4) 22%, transparent) 10deg 12deg,
+    transparent 14deg 22deg,
+    color-mix(in oklab, var(--bd-4) 14%, transparent) 24deg 25deg,
+    transparent 27deg 40deg,
+    color-mix(in oklab, var(--bd-2) 18%, transparent) 42deg 45deg,
+    transparent 47deg 360deg
+  );
+  -webkit-mask-image: radial-gradient(ellipse 60% 100% at 50% 0%, #000 10%, transparent 75%);
+          mask-image: radial-gradient(ellipse 60% 100% at 50% 0%, #000 10%, transparent 75%);
+}
+
+/* =========================================================================
+   5. RUB KOJI SVIJETLI (border beam)
+   -------------------------------------------------------------------------
+   Tehnika: konusni gradijent koji rotira, maskiran na sam rub preko dvije
+   maske u xor kompozitu. Cijeli efekt je jedan pseudo-element, bez JS-a.
+
+   @property je potreban da se kut uopće može animirati; bez njega pregledanik
+   samo preskoči na kraj — zato je fallback statičan rub, a ne pokvaren.
+   ========================================================================= */
+
+@property --bd-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+[data-bd~="beam"] {
+  --bd-beam-w: 1px;
+  --bd-beam-from: var(--bd-4);
+  --bd-beam-to: var(--bd-3);
+  --bd-beam-dur: 6s;
+}
+
+[data-bd~="beam"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  padding: var(--bd-beam-w);
+  background: conic-gradient(
+    from var(--bd-angle),
+    transparent 0% 62%,
+    var(--bd-beam-from) 78%,
+    var(--bd-beam-to) 92%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-bd~="beam"]::before { animation: bd-angle var(--bd-beam-dur) linear infinite; }
+}
+@keyframes bd-angle { to { --bd-angle: 360deg; } }
+
+/* varijanta: svijetli tek na hover — mirnija stranica, isti efekt */
+[data-bd~="beam-hover"]::before { opacity: 0; transition: opacity .35s ease; }
+[data-bd~="beam-hover"]:hover::before,
+[data-bd~="beam-hover"]:focus-within::before { opacity: 1; }
+
+/* =========================================================================
+   6. METEORI — dijagonalne crte koje prelete
+   -------------------------------------------------------------------------
+   Elemente ubacuje backdrop.js; ovdje je samo izgled i putanja.
+   ========================================================================= */
+
+.bd-meteor {
+  position: absolute;
+  top: -5%;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--bd-4) 70%, white);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06);
+  rotate: var(--bd-meteor-angle, -215deg);
+  animation: bd-meteor linear infinite;
+  pointer-events: none;
+}
+.bd-meteor::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: -1;
+  width: 50px;
+  height: 1px;
+  background: linear-gradient(to right, color-mix(in oklab, var(--bd-4) 60%, transparent), transparent);
+}
+@keyframes bd-meteor {
+  0%   { transform: translate3d(0, 0, 0); opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: translate3d(-680px, 680px, 0); opacity: 0; }
+}
+
+/* =========================================================================
+   7. PLATNO ZA JS EFEKTE (mesh-live, flicker)
+   ========================================================================= */
+
+.bd-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+[data-bd~="mesh-live"] > .bd-canvas { filter: blur(48px) saturate(1.1); }
+
+/* =========================================================================
+   8. REDUCED MOTION — sve stane, ništa ne nestane
+   ========================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-bd~="mesh-drift"],
+  [data-bd~="beam"]::before,
+  .bd-meteor { animation: none !important; }
+  .bd-meteor { opacity: .5; }
+}
+
+/* =========================================================================
+   9. PRINT — pozadine se ne tiskaju
+   ========================================================================= */
+
+@media print {
+  [data-bd] { background: none !important; }
+  [data-bd]::before,
+  [data-bd]::after,
+  .bd-canvas,
+  .bd-meteor { display: none !important; }
+}

@@ -1,0 +1,119 @@
+/* ==========================================================================
+   scroll-motion.css — reveal + scroll-linked primitives
+   Pair with scroll-motion.js. No dependencies, no build step.
+
+   Usage:  <div data-sm="up">…</div>
+   The JS adds .sm-in when the element enters the viewport.
+   If JS never runs (error, blocked), nothing is hidden: the .sm-ready guard
+   on <html> means the initial states only apply once JS has booted.
+   ========================================================================== */
+
+:root {
+  --sm-dur: 0.75s;
+  --sm-dur-fast: 0.45s;
+  --sm-ease: cubic-bezier(0.22, 1, 0.36, 1);   /* expo-out, the workhorse */
+  --sm-ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --sm-dist: 28px;                              /* travel distance */
+  --sm-blur: 8px;
+}
+
+/* --- reveal primitives ---------------------------------------------------
+   Every variant animates opacity + ONE transform. Never more.
+   ------------------------------------------------------------------------ */
+.sm-ready [data-sm] {
+  opacity: 0;
+  will-change: opacity, transform;
+  transition:
+    opacity var(--sm-dur) var(--sm-ease) var(--sm-delay, 0s),
+    transform var(--sm-dur) var(--sm-ease) var(--sm-delay, 0s),
+    filter var(--sm-dur) var(--sm-ease) var(--sm-delay, 0s),
+    clip-path var(--sm-dur) var(--sm-ease) var(--sm-delay, 0s);
+}
+
+.sm-ready [data-sm="up"]      { transform: translate3d(0, var(--sm-dist), 0); }
+.sm-ready [data-sm="down"]    { transform: translate3d(0, calc(var(--sm-dist) * -1), 0); }
+.sm-ready [data-sm="left"]    { transform: translate3d(var(--sm-dist), 0, 0); }
+.sm-ready [data-sm="right"]   { transform: translate3d(calc(var(--sm-dist) * -1), 0, 0); }
+.sm-ready [data-sm="scale"]   { transform: scale(0.94); }
+.sm-ready [data-sm="scale-up"]{ transform: translate3d(0, var(--sm-dist), 0) scale(0.96); }
+.sm-ready [data-sm="fade"]    { transform: none; }
+.sm-ready [data-sm="blur"]    { filter: blur(var(--sm-blur)); transform: translate3d(0, 12px, 0); }
+.sm-ready [data-sm="rise"]    { transform: translate3d(0, 64px, 0); }          /* long travel, hero use */
+.sm-ready [data-sm="tilt"]    { transform: perspective(1200px) rotateX(10deg) translate3d(0, 24px, 0); transform-origin: 50% 100%; }
+
+/* Curtain wipe: the element is clipped away, then unclipped. Good for images
+   and section headers. Direction set per variant. */
+.sm-ready [data-sm="wipe-up"]   { opacity: 1; clip-path: inset(100% 0 0 0); }
+.sm-ready [data-sm="wipe-down"] { opacity: 1; clip-path: inset(0 0 100% 0); }
+.sm-ready [data-sm="wipe-left"] { opacity: 1; clip-path: inset(0 0 0 100%); }
+
+/* Settled state — one rule for every variant.
+
+   clip-path se NE postavlja ovdje. Globalni `clip-path: inset(0)` na svakom
+   otkrivenom elementu reže sve što namjerno strši izvan okvira: brojeve koraka
+   s negativnim offsetom, badgeve, sjene, fokus obrube. Clip treba samo wipe
+   varijantama, koje ga i uvode. */
+.sm-ready [data-sm].sm-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+.sm-ready [data-sm^="wipe-"].sm-in { clip-path: inset(0 0 0 0); }
+
+/* Drop will-change once the animation is done (JS sets .sm-done). */
+.sm-ready [data-sm].sm-done { will-change: auto; }
+
+/* --- split text ----------------------------------------------------------
+   data-sm-split="words" | "lines" | "chars" — JS wraps each unit.
+   Units stagger automatically via --sm-i.
+   ------------------------------------------------------------------------ */
+.sm-split-unit {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.sm-split-inner {
+  display: inline-block;
+  transform: translate3d(0, 110%, 0);
+  transition: transform 0.9s var(--sm-ease);
+  transition-delay: calc(var(--sm-i, 0) * var(--sm-split-step, 0.045s) + var(--sm-delay, 0s));
+}
+.sm-in .sm-split-inner,
+.sm-split-unit.sm-in .sm-split-inner { transform: translate3d(0, 0, 0); }
+
+/* --- scroll-linked helpers ----------------------------------------------- */
+
+/* Reading progress bar: JS writes --sm-progress (0→1) on the element. */
+.sm-progress-bar {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 999;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--sm-progress, 0));
+  background: currentColor;
+  pointer-events: none;
+}
+
+/* Elements with data-sm-scrub get --sm-progress (0→1) across their own pass
+   through the viewport. Drive anything you like from it. */
+[data-sm-scrub] { --sm-progress: 0; }
+
+/* Sticky stack: each panel pins while the next scrolls over it. */
+.sm-stack > * { position: sticky; top: 0; }
+
+/* --- reduced motion ------------------------------------------------------
+   Honour the OS setting: content appears, nothing moves.
+   ------------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .sm-ready [data-sm],
+  .sm-ready [data-sm].sm-in {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+  .sm-split-inner { transform: none !important; transition: none !important; }
+  .sm-progress-bar { transition: none; }
+}

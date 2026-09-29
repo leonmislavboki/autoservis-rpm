@@ -1,0 +1,28 @@
+/* Self-hostani fontovi (Fontshare, licenca: Indian Type Foundry free font licence).
+   Ne učitava se ništa s tuđe domene — nijedan posjetiteljev IP ne ide trećoj strani. */
+
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("CabinetGrotesk-700.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("CabinetGrotesk-800.woff2") format("woff2");
+  font-weight: 800; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Switzer";
+  src: url("Switzer-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Switzer";
+  src: url("Switzer-500.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Switzer";
+  src: url("Switzer-700.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}

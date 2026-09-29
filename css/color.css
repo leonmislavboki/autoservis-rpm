@@ -1,0 +1,203 @@
+/* ==========================================================================
+   color.css — paleta i sjene izvedene iz jedne odluke
+   Postaviš hue i chromu akcenta, a 12 stupnjeva neutrala i 12 akcenta se
+   izračunaju sama. Nema nasumičnih hex vrijednosti.
+
+   Struktura stupnjeva preuzeta iz Radix Colors (vidi references/color.md):
+     1-2   pozadine        3-5   pozadine elemenata (mirno / hover / pritisnuto)
+     6-8   obrubi          9-10  pune boje          11-12  tekst
+
+   OKLCH je perceptualno ujednačen: ista razlika u L znači istu razliku u
+   doživljenoj svjetlini, pa skala ne "propada" na pojedinim tonovima kao HSL.
+   Podržan u svim aktualnim preglednicima.
+   ========================================================================== */
+
+:root {
+  /* --- jedina dva broja koja mijenjaš po projektu -------------------------
+     Hue u stupnjevima (0-360), chroma 0-0.37 (realno 0.05-0.20).
+     Primjeri: cigla 38, oker 75, šumsko zeleno 150, industrijsko plavo 240.
+     -------------------------------------------------------------------- */
+  /* Kazaljka u logotipu je #ed3500 (original nosi Display P3 profil, pa sirovi
+     broj #da471d iz datoteke NIJE sRGB — mjeri _build/logo.py). Ta boja je na
+     velikim plohama djelovala narančasto, pa je akcent sučelja pomaknut prema
+     crvenom: oklch(58% 0.215 29) = #dd291f. To je praktički ista crvena koju je
+     nosila stara stranica (#dc2626). Znak zadržava svoju boju. */
+  --accent-h: 29;
+  --accent-c: 0.215;
+
+  /* Neutral nije siv nego nosi trag akcenta. To je razlika između palete
+     koja djeluje namjerno i one koja djeluje kao default Tailwinda. */
+  /* Krug u logotipu je čisto siv (#2b2b2a), bez topline. Neutral zato NE nosi
+     trag akcenta — inače sve oko logotipa izgleda smeđe. */
+  --neutral-h: var(--accent-h);
+  --neutral-c: 0;
+
+  /* --- neutral, 12 stupnjeva --------------------------------------------- */
+  --n1:  oklch(99.2% var(--neutral-c) var(--neutral-h));
+  --n2:  oklch(97.6% var(--neutral-c) var(--neutral-h));
+  --n3:  oklch(95.0% calc(var(--neutral-c) * 1.4) var(--neutral-h));
+  --n4:  oklch(92.4% calc(var(--neutral-c) * 1.6) var(--neutral-h));
+  --n5:  oklch(89.6% calc(var(--neutral-c) * 1.8) var(--neutral-h));
+  --n6:  oklch(86.0% calc(var(--neutral-c) * 2.0) var(--neutral-h));
+  --n7:  oklch(80.5% calc(var(--neutral-c) * 2.2) var(--neutral-h));
+  --n8:  oklch(72.0% calc(var(--neutral-c) * 2.4) var(--neutral-h));
+  --n9:  oklch(58.0% calc(var(--neutral-c) * 2.6) var(--neutral-h));
+  --n10: oklch(52.0% calc(var(--neutral-c) * 2.6) var(--neutral-h));
+  --n11: oklch(43.0% calc(var(--neutral-c) * 2.4) var(--neutral-h));
+  --n12: oklch(18.0% calc(var(--neutral-c) * 3.0) var(--neutral-h));
+
+  /* --- akcent, istih 12 stupnjeva ----------------------------------------
+     Chroma raste prema sredini skale i pada na krajevima — tako rade i
+     ozbiljne palete. Ravna chroma kroz cijelu skalu izgleda plastično.
+     -------------------------------------------------------------------- */
+  --a1:  oklch(98.8% calc(var(--accent-c) * 0.10) var(--accent-h));
+  --a2:  oklch(97.2% calc(var(--accent-c) * 0.18) var(--accent-h));
+  --a3:  oklch(94.0% calc(var(--accent-c) * 0.35) var(--accent-h));
+  --a4:  oklch(90.5% calc(var(--accent-c) * 0.50) var(--accent-h));
+  --a5:  oklch(86.5% calc(var(--accent-c) * 0.65) var(--accent-h));
+  --a6:  oklch(81.0% calc(var(--accent-c) * 0.80) var(--accent-h));
+  --a7:  oklch(74.0% calc(var(--accent-c) * 0.92) var(--accent-h));
+  --a8:  oklch(66.0% var(--accent-c) var(--accent-h));
+  --a9:  oklch(56.0% var(--accent-c) var(--accent-h));
+  --a10: oklch(51.0% var(--accent-c) var(--accent-h));
+  --a11: oklch(44.0% calc(var(--accent-c) * 0.95) var(--accent-h));
+  --a12: oklch(25.0% calc(var(--accent-c) * 0.65) var(--accent-h));
+
+  /* --- semantički tokeni -------------------------------------------------
+     U stilovima koristi ISKLJUČIVO ove, nikad --n7 direktno. Tako dark mode
+     i promjena palete ne traže prolazak kroz cijeli CSS.
+     -------------------------------------------------------------------- */
+  --bg:             var(--n1);
+  --bg-subtle:      var(--n2);
+  --surface:        oklch(100% 0 0);
+  --surface-sunken: var(--n3);
+
+  --element:        var(--n3);
+  --element-hover:  var(--n4);
+  --element-active: var(--n5);
+
+  --border:         var(--n6);
+  --border-strong:  var(--n7);
+  --border-focus:   var(--a8);
+
+  --solid:          var(--a9);
+  --solid-hover:    var(--a10);
+  --on-solid:       oklch(99% 0 0);
+
+  --text:           var(--n12);
+  --text-muted:     var(--n11);
+  --text-subtle:    var(--n9);
+  --text-accent:    var(--a11);
+
+  /* --- statusne boje -----------------------------------------------------
+     Iste svjetline kao akcent, samo drugi hue — pa se ne tuku s brendom.
+     -------------------------------------------------------------------- */
+  --ok:    oklch(56% 0.13 150);
+  --warn:  oklch(70% 0.14 75);
+  --error: oklch(55% 0.17 27);
+  --ok-bg:    oklch(96% 0.03 150);
+  --warn-bg:  oklch(96% 0.04 75);
+  --error-bg: oklch(96% 0.03 27);
+
+  /* --- sjene ------------------------------------------------------------
+     Jedan izvor svjetla, odozgo. Svaka razina je DVIJE sjene: uska i tamna
+     (kontaktna) plus široka i blijeda (ambijentalna). Sjena nije crna nego
+     tonirana hueom palete — crna sjena na toploj podlozi izgleda prljavo.
+     -------------------------------------------------------------------- */
+  --shadow-color: var(--neutral-h);
+  --shadow-1:
+    0 1px 2px oklch(20% 0.02 var(--shadow-color) / 0.06),
+    0 1px 1px oklch(20% 0.02 var(--shadow-color) / 0.04);
+  --shadow-2:
+    0 2px 4px oklch(20% 0.02 var(--shadow-color) / 0.07),
+    0 4px 12px oklch(20% 0.02 var(--shadow-color) / 0.05);
+  --shadow-3:
+    0 4px 8px oklch(20% 0.02 var(--shadow-color) / 0.08),
+    0 12px 28px oklch(20% 0.02 var(--shadow-color) / 0.07);
+  --shadow-4:
+    0 8px 16px oklch(20% 0.02 var(--shadow-color) / 0.09),
+    0 24px 56px oklch(20% 0.02 var(--shadow-color) / 0.09);
+
+  /* Obrub kao sjena: oštra linija bez zauzimanja prostora u layoutu. */
+  --ring: inset 0 0 0 1px var(--border);
+  --ring-focus: 0 0 0 3px oklch(66% calc(var(--accent-c) * 0.9) var(--accent-h) / 0.35);
+
+  --radius-s: 4px;
+  --radius-m: 8px;
+  --radius-l: 14px;
+}
+
+/* --- dark mode -------------------------------------------------------------
+   Ne invertiraj hex vrijednosti. Okreni RAMPU svjetline i smanji chromu —
+   zasićena boja na tamnoj podlozi vibrira.
+   -------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --n1:  oklch(16.0% calc(var(--neutral-c) * 2.0) var(--neutral-h));
+    --n2:  oklch(19.0% calc(var(--neutral-c) * 2.2) var(--neutral-h));
+    --n3:  oklch(23.0% calc(var(--neutral-c) * 2.6) var(--neutral-h));
+    --n4:  oklch(26.5% calc(var(--neutral-c) * 2.8) var(--neutral-h));
+    --n5:  oklch(30.0% calc(var(--neutral-c) * 3.0) var(--neutral-h));
+    --n6:  oklch(35.0% calc(var(--neutral-c) * 3.0) var(--neutral-h));
+    --n7:  oklch(42.0% calc(var(--neutral-c) * 3.0) var(--neutral-h));
+    --n8:  oklch(53.0% calc(var(--neutral-c) * 2.8) var(--neutral-h));
+    --n9:  oklch(62.0% calc(var(--neutral-c) * 2.6) var(--neutral-h));
+    --n10: oklch(68.0% calc(var(--neutral-c) * 2.4) var(--neutral-h));
+    --n11: oklch(77.0% calc(var(--neutral-c) * 2.0) var(--neutral-h));
+    --n12: oklch(95.0% calc(var(--neutral-c) * 1.5) var(--neutral-h));
+
+    --a9:  oklch(62.0% calc(var(--accent-c) * 0.9) var(--accent-h));
+    --a10: oklch(68.0% calc(var(--accent-c) * 0.9) var(--accent-h));
+    --a11: oklch(78.0% calc(var(--accent-c) * 0.7) var(--accent-h));
+
+    --surface: var(--n2);
+    --on-solid: oklch(15% 0 0);
+
+    /* Na tamnom sjena ne postoji — dubina se radi svjetlijom plohom.
+       Zadrži blagu sjenu samo za elemente koji stvarno lebde. */
+    --shadow-1: 0 1px 2px oklch(0% 0 0 / 0.4);
+    --shadow-2: 0 2px 8px oklch(0% 0 0 / 0.45);
+    --shadow-3: 0 8px 24px oklch(0% 0 0 / 0.5);
+    --shadow-4: 0 16px 48px oklch(0% 0 0 / 0.55);
+  }
+}
+
+/* --- osnova ---------------------------------------------------------------- */
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+::selection {
+  background: oklch(56% var(--accent-c) var(--accent-h) / 0.22);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* --- gotovi slojevi --------------------------------------------------------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-1);
+}
+.card--raised { box-shadow: var(--shadow-2); }
+.card--float  { box-shadow: var(--shadow-3); }
+
+.btn-solid {
+  background: var(--solid);
+  color: var(--on-solid);
+  border: 1px solid transparent;
+}
+.btn-solid:hover { background: var(--solid-hover); }
+
+.btn-quiet {
+  background: var(--element);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-quiet:hover { background: var(--element-hover); border-color: var(--border-strong); }

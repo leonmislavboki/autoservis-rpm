@@ -1,0 +1,335 @@
+/* ==========================================================================
+   consent.css — banner, postavke i placeholderi za blokirani sadržaj
+   Pair with consent.js. Bez ovisnosti, bez builda.
+
+   Namjerno neutralno: preuzmi paletu stranice preko ovih varijabli u svom
+   :root, nemoj prepisivati selektore. Banner mora izgledati kao dio stranice,
+   ne kao generički plugin.
+
+     :root {
+       --ck-bg: #fff;  --ck-fg: #14110f;  --ck-muted: #6b625c;
+       --ck-line: #e4ded8;  --ck-accent: #b4341f;  --ck-accent-fg: #fff;
+       --ck-radius: 4px;
+     }
+   ========================================================================== */
+
+/* :where() drži specifičnost na nuli, da stranica svoje --ck-* tokene može
+   postaviti običnim :root pravilom bez obzira na redoslijed učitavanja.
+   Bez toga bi consent.css (koji se učitava nakon site.css) uvijek pobijedio
+   i banner bi ostao u zadanoj temi. */
+:where(:root) {
+  --ck-bg: #ffffff;
+  --ck-fg: #17140f;
+  --ck-muted: #6b625c;
+  --ck-line: #e2ddd6;
+  --ck-accent: #1c1a17;
+  --ck-accent-fg: #ffffff;
+  --ck-radius: 4px;
+  --ck-shadow: 0 -1px 0 var(--ck-line), 0 24px 60px rgba(0, 0, 0, 0.16);
+  --ck-z: 9000;
+}
+
+.ck {
+  position: fixed;
+  z-index: var(--ck-z);
+  color: var(--ck-fg);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.ck * { box-sizing: border-box; }
+
+/* --- banner: donja traka, ne prekriva sadržaj ---------------------------- */
+.ck-banner {
+  inset: auto 0 0 0;
+  background: var(--ck-bg);
+  border-top: 1px solid var(--ck-line);
+  box-shadow: var(--ck-shadow);
+  animation: ck-up 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.ck-banner .ck-panel {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 1.375rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 60rem) {
+  .ck-banner .ck-panel {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 2.5rem;
+    padding: 1.5rem 1.5rem 1.625rem;
+  }
+  .ck-banner .ck-title,
+  .ck-banner .ck-lead { grid-column: 1; }
+  .ck-banner .ck-actions { grid-column: 2; grid-row: 1 / span 2; }
+  .ck-banner .ck-links { grid-column: 1 / -1; }
+}
+
+/* --- postavke: modal ----------------------------------------------------- */
+.ck-modal {
+  inset: 0;
+  display: grid;
+  place-items: end center;
+  background: rgba(15, 12, 9, 0.5);
+  padding: 1rem;
+  overflow-y: auto;
+  animation: ck-fade 0.2s ease both;
+}
+
+@media (min-width: 40rem) {
+  .ck-modal { place-items: center; }
+}
+
+.ck-modal .ck-panel {
+  width: 100%;
+  max-width: 34rem;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  background: var(--ck-bg);
+  border: 1px solid var(--ck-line);
+  border-radius: var(--ck-radius);
+  padding: 1.5rem;
+  animation: ck-up 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* --- tekst --------------------------------------------------------------- */
+.ck-title {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.ck-lead {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--ck-muted);
+}
+
+.ck-links {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--ck-muted);
+}
+
+.ck-links a { color: inherit; text-underline-offset: 0.2em; }
+.ck-links a:hover { color: var(--ck-fg); }
+
+/* --- gumbi: odbijanje mora biti jednako lako kao prihvaćanje ------------- */
+.ck-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ck-btn {
+  flex: 1 1 auto;
+  min-height: 2.75rem;
+  padding: 0.625rem 1.125rem;
+  border: 1px solid var(--ck-line);
+  border-radius: var(--ck-radius);
+  background: transparent;
+  color: var(--ck-fg);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 550;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.ck-btn:hover { border-color: var(--ck-fg); }
+
+.ck-btn-solid {
+  background: var(--ck-accent);
+  border-color: var(--ck-accent);
+  color: var(--ck-accent-fg);
+}
+
+.ck-btn-solid:hover { filter: brightness(1.12); }
+
+.ck-btn:focus-visible {
+  outline: 2px solid var(--ck-accent);
+  outline-offset: 2px;
+}
+
+@media (min-width: 60rem) {
+  .ck-banner .ck-btn { flex: 0 0 auto; }
+}
+
+/* --- redci kategorija ---------------------------------------------------- */
+.ck-rows {
+  display: grid;
+  gap: 0.25rem;
+  margin: 1.25rem 0;
+}
+
+.ck-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.875rem;
+  align-items: start;
+  padding: 0.875rem 0;
+  border-top: 1px solid var(--ck-line);
+}
+
+.ck-row:last-child { border-bottom: 1px solid var(--ck-line); }
+
+.ck-row-title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.ck-always {
+  font-style: normal;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ck-muted);
+}
+
+.ck-row-text {
+  margin: 0.125rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--ck-muted);
+}
+
+/* prekidač */
+.ck-switch {
+  position: relative;
+  display: block;
+  width: 2.75rem;
+  height: 1.5rem;
+  margin-top: 0.125rem;
+  flex: none;
+}
+
+.ck-switch input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ck-switch span {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--ck-line);
+  border-radius: 1.5rem;
+  background: var(--ck-bg);
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+  pointer-events: none;
+}
+
+.ck-switch span::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0.1875rem;
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.5rem;
+  border-radius: 50%;
+  background: var(--ck-muted);
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.18s ease;
+}
+
+.ck-switch input:checked + span {
+  background: var(--ck-accent);
+  border-color: var(--ck-accent);
+}
+
+.ck-switch input:checked + span::after {
+  background: var(--ck-accent-fg);
+  transform: translateX(1.1875rem);
+}
+
+.ck-switch input:disabled + span { opacity: 0.55; }
+.ck-switch input:disabled { cursor: default; }
+
+.ck-switch input:focus-visible + span {
+  outline: 2px solid var(--ck-accent);
+  outline-offset: 2px;
+}
+
+/* --- placeholder umjesto blokiranog embeda ------------------------------- */
+.ck-block {
+  display: grid;
+  align-content: center;
+  gap: 0.5rem;
+  min-height: 14rem;
+  height: 100%;
+  padding: 1.5rem;
+  border: 1px dashed var(--ck-line);
+  border-radius: var(--ck-radius);
+  background: var(--ck-bg);
+  color: var(--ck-fg);
+  text-align: left;
+}
+
+.ck-block-title {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.ck-block-text {
+  margin: 0;
+  max-width: 48ch;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--ck-muted);
+}
+
+.ck-block-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.ck-block-actions .ck-btn { flex: 0 0 auto; }
+
+/* --- animacije ----------------------------------------------------------- */
+@keyframes ck-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes ck-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ck, .ck * { animation: none !important; transition: none !important; }
+}
+
+/* --- tamna varijanta: samo ako je stranica tamna ------------------------- */
+@media (prefers-color-scheme: dark) {
+  :where(:root:not([data-theme="light"])) {
+    --ck-bg: #15130f;
+    --ck-fg: #f3efe9;
+    --ck-muted: #a39a90;
+    --ck-line: #2e2a24;
+    --ck-accent: #f3efe9;
+    --ck-accent-fg: #15130f;
+    --ck-shadow: 0 -1px 0 var(--ck-line), 0 24px 60px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/* --- ispis ----------------------------------------------------------------
+   Banner i modal nisu sadržaj stranice i nemaju što na papiru. Bez ovoga
+   se traka s pristankom otisne preko prve stranice svakog ispisa. */
+@media print {
+  .ck-banner,
+  .ck-modal { display: none !important; }
+}

@@ -1,4 +1,6 @@
+# Auto servis RPM — autoservisrpm.com
+
 User-agent: *
-Allow: /
+Disallow:
 
 Sitemap: https://autoservisrpm.com/sitemap.xml

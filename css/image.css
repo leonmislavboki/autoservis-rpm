@@ -1,0 +1,140 @@
+/* ==========================================================================
+   image.css — okviri, kadriranje i obrada slika
+   Glavni posao ovog filea: napraviti da fotografije različite kvalitete i
+   različitog porijekla izgledaju kao da pripadaju istoj stranici.
+   ========================================================================== */
+
+/* --- 1. okvir s omjerom ---------------------------------------------------
+   Slika UVIJEK ide u okvir s definiranim omjerom. Tako layout ne poskakuje
+   i sve slike u mreži su iste visine bez obzira na original.
+   -------------------------------------------------------------------------- */
+.img-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-sunken, #f1f1ef);
+  border-radius: var(--radius-m, 8px);
+}
+.img-frame > img,
+.img-frame > video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ar-square   { aspect-ratio: 1 / 1; }
+.ar-portrait { aspect-ratio: 3 / 4; }
+.ar-photo    { aspect-ratio: 4 / 3; }
+.ar-wide     { aspect-ratio: 16 / 9; }
+.ar-cinema   { aspect-ratio: 21 / 9; }
+.ar-tall     { aspect-ratio: 2 / 3; }
+
+/* Kadriranje: zadano je sredina, ali lice ili proizvod rijetko jesu u sredini.
+   Postavi po slici, ne globalno. */
+.pos-top    { object-position: 50% 15%; }
+.pos-bottom { object-position: 50% 85%; }
+.pos-left   { object-position: 15% 50%; }
+.pos-right  { object-position: 85% 50%; }
+
+/* --- 2. jedinstvena obrada ------------------------------------------------
+   Skupe stranice imaju sve fotografije u ISTOM tonu. Primijeni jednu od ovih
+   klasa na SVE slike na stranici — nikad miješano.
+   -------------------------------------------------------------------------- */
+
+/* Blaga korekcija: malo kontrasta, malo topline. Sigurna na svemu. */
+.grade-warm img  { filter: saturate(0.92) contrast(1.06) brightness(1.02) sepia(0.06); }
+
+/* Hladna, tehnička. Za autodijelove, industriju, transport. */
+.grade-cool img  { filter: saturate(0.85) contrast(1.1) hue-rotate(-6deg); }
+
+/* Prigušena, editorial. Fotografije prestaju vikati i tekst dolazi u prvi plan. */
+.grade-muted img { filter: saturate(0.6) contrast(1.04) brightness(1.03); }
+
+/* Zadnja linija obrane za set fotki različite kvalitete: sve u sivo,
+   boja dolazi samo iz akcenta preko preklopa. */
+.grade-mono img  { filter: grayscale(1) contrast(1.08); }
+.grade-mono::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--solid, #b8431f);
+  mix-blend-mode: color;
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+/* Boja se vraća na hover — radi samo ako je namjerno i dosljedno. */
+.grade-reveal img { filter: grayscale(1) contrast(1.06); transition: filter 600ms cubic-bezier(0.22,1,0.36,1); }
+.grade-reveal:hover img { filter: grayscale(0) contrast(1.02); }
+
+/* --- 3. tekst preko slike --------------------------------------------------
+   Nikad tekst direktno na fotografiju. Uvijek scrim — gradijent koji
+   zatamni samo onaj dio gdje tekst stoji.
+   -------------------------------------------------------------------------- */
+.scrim { position: relative; }
+.scrim::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.38) 32%,
+    rgba(0, 0, 0, 0) 62%
+  );
+}
+.scrim-top::after {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 55%);
+}
+.scrim > .scrim-content { position: relative; z-index: 1; }
+
+/* Blagi vinjeta rub — drži pogled unutar slike. Vrlo suptilno ili nikako. */
+.vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* --- 4. duotone preko SVG filtera -----------------------------------------
+   Jači zahvat od grade-mono: slika se preslika u dvije boje palete.
+   Traži <svg> s filterom u dokumentu (predložak u SKILL.md).
+   -------------------------------------------------------------------------- */
+.duotone img { filter: url(#duotone); }
+
+/* --- 5. stanje učitavanja --------------------------------------------------
+   Podloga u boji plohe dok slika ne stigne — nikad bijela rupa.
+   -------------------------------------------------------------------------- */
+.img-frame > img {
+  background: linear-gradient(
+    100deg,
+    var(--surface-sunken, #f1f1ef) 30%,
+    var(--element, #e9e9e6) 50%,
+    var(--surface-sunken, #f1f1ef) 70%
+  );
+}
+
+/* Slika koja se nije učitala ne smije biti prazan okvir — alt tekst se vidi. */
+img:not([src]), img[src=""] { visibility: hidden; }
+
+/* --- 6. zoom na hover -----------------------------------------------------
+   Sporo i malo. 1.04 je granica; preko toga se vidi gubitak oštrine.
+   -------------------------------------------------------------------------- */
+.img-zoom > img {
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.img-zoom:hover > img { transform: scale(1.04); }
+
+@media (prefers-reduced-motion: reduce) {
+  .img-zoom > img, .grade-reveal img { transition: none; }
+  .img-zoom:hover > img { transform: none; }
+}
+
+@media (hover: none) {
+  .img-zoom:hover > img { transform: none; }
+  .grade-reveal:hover img { filter: grayscale(1) contrast(1.06); }
+}

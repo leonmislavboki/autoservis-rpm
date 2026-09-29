@@ -1,0 +1,173 @@
+/* ==========================================================================
+   layout.css — kompozicijski primitivi
+   Očekuje razmake iz typography-skill (--space-*). Ako ih nema, fallbackovi
+   drže stranicu na životu.
+
+   Ideja: prestani slagati layout ad hoc po sekciji. Sedam primitiva pokriva
+   gotovo sve, a stranica ostaje dosljedna jer se svi ravnaju po istoj mreži.
+   ========================================================================== */
+
+:root {
+  --gutter: var(--space-m, 1.5rem);
+  --content-w: 68rem;     /* glavni stupac */
+  --narrow-w: 44rem;      /* tekst koji se čita */
+  --section-y: var(--space-3xl, 6rem);
+}
+
+/* --- 1. breakout mreža ----------------------------------------------------
+   Jedna mreža za cijelu stranicu. Dijete bira dokle seže:
+     .w-content  normalna širina
+     .w-narrow   uži stupac za tekst
+     .w-feature  malo šire od sadržaja (slike, kartice)
+     .w-full     od ruba do ruba
+
+   Time nestaje vječno umatanje u .container divove i sve se poravnava samo.
+   -------------------------------------------------------------------------- */
+.layout {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(var(--gutter), 1fr)
+    [feature-start] minmax(0, 6rem)
+    [content-start] min(100% - (var(--gutter) * 2), var(--content-w)) [content-end]
+    minmax(0, 6rem) [feature-end]
+    minmax(var(--gutter), 1fr) [full-end];
+}
+.layout > *          { grid-column: content; }
+.layout > .w-narrow  { grid-column: content; max-width: var(--narrow-w); }
+.layout > .w-feature { grid-column: feature; }
+.layout > .w-full    { grid-column: full; }
+
+/* --- 2. stack — okomiti ritam ---------------------------------------------
+   Razmak se ne stavlja na elemente nego IZMEĐU njih. Nema margin collapse
+   iznenađenja i nema zadnjeg elementa s viškom margine.
+   -------------------------------------------------------------------------- */
+.stack > * + * { margin-block-start: var(--stack, var(--space-s, 1rem)); }
+.stack-xs > * + * { margin-block-start: var(--space-xs, 0.75rem); }
+.stack-m  > * + * { margin-block-start: var(--space-m, 1.5rem); }
+.stack-l  > * + * { margin-block-start: var(--space-l, 2rem); }
+.stack-xl > * + * { margin-block-start: var(--space-xl, 3rem); }
+
+/* --- 3. cluster — vodoravna grupa koja se sama lomi ------------------------
+   Gumbi, tagovi, meta podaci, navigacija. Nikad float, nikad inline-block hack.
+   -------------------------------------------------------------------------- */
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cluster-gap, var(--space-xs, 0.75rem));
+  align-items: center;
+}
+.cluster-between { justify-content: space-between; }
+
+/* --- 4. sidebar — sadržaj + bočni stupac koji se sam slaže -----------------
+   Bez media queryja: bočni stupac ima fiksnu bazu, glavni traži minimalnu
+   širinu i kad je ne dobije, red se prelomi.
+   -------------------------------------------------------------------------- */
+.with-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-l, 2rem);
+}
+.with-sidebar > .sidebar {
+  flex-basis: var(--sidebar-w, 18rem);
+  flex-grow: 1;
+}
+.with-sidebar > .not-sidebar {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-break, 55%);
+}
+
+/* --- 5. switcher — n stupaca dok stane, pa jedan ---------------------------
+   Prelomi se odjednom, svi zajedno, umjesto da jedna kartica ostane sama.
+   -------------------------------------------------------------------------- */
+.switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-m, 1.5rem);
+}
+.switcher > * {
+  flex-grow: 1;
+  flex-basis: calc((var(--switch-at, 40rem) - 100%) * 999);
+}
+
+/* --- 6. grid — kartice bez media queryja ----------------------------------- */
+.grid-auto {
+  display: grid;
+  gap: var(--space-m, 1.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--card-min, 17rem), 100%), 1fr));
+}
+
+/* --- 7. reel — vodoravni niz koji skrola ----------------------------------
+   Katalog, galerija, logotipi. Stranica ne skrola vodoravno, samo reel.
+   -------------------------------------------------------------------------- */
+.reel {
+  display: flex;
+  gap: var(--space-m, 1.5rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  padding-block-end: var(--space-xs, 0.75rem);
+}
+.reel > * { flex: 0 0 var(--reel-item, 20rem); scroll-snap-align: start; }
+.reel > img { inline-size: auto; block-size: 100%; flex-basis: auto; }
+
+/* --- asimetrija ------------------------------------------------------------
+   50/50 je najdosadniji mogući split i odmah se vidi kao zadana postavka.
+   7/5 i 8/4 izgledaju odabrano.
+   -------------------------------------------------------------------------- */
+.split-7-5, .split-5-7, .split-8-4, .split-4-8 {
+  display: grid;
+  gap: var(--space-xl, 3rem);
+  align-items: center;
+}
+@media (min-width: 52rem) {
+  .split-7-5 { grid-template-columns: 7fr 5fr; }
+  .split-5-7 { grid-template-columns: 5fr 7fr; }
+  .split-8-4 { grid-template-columns: 8fr 4fr; }
+  .split-4-8 { grid-template-columns: 4fr 8fr; }
+}
+
+/* Namjerno preklapanje — element ulazi u susjednu sekciju.
+   Jedan po stranici; više od toga je nered, ne kompozicija. */
+.overlap-up { margin-block-start: calc(var(--space-2xl, 4rem) * -1); position: relative; z-index: 1; }
+.pull-left  { margin-inline-start: calc(var(--space-xl, 3rem) * -1); }
+.pull-right { margin-inline-end: calc(var(--space-xl, 3rem) * -1); }
+@media (max-width: 52rem) {
+  .overlap-up, .pull-left, .pull-right { margin: 0; }
+}
+
+/* --- ritam sekcija ---------------------------------------------------------
+   Sve sekcije istog razmaka = stranica bez ritma. Tri razine gustoće.
+   -------------------------------------------------------------------------- */
+.section       { padding-block: var(--section-y); }
+.section-tight { padding-block: var(--space-xl, 3rem); }
+.section-air   { padding-block: calc(var(--section-y) * 1.6); }
+
+/* Prva sekcija ispod headera nema gornji razmak — hero počinje odmah. */
+.section:first-child { padding-block-start: var(--space-l, 2rem); }
+
+/* --- centriranje sadržaja unutar punog bloka -------------------------------- */
+.center-content {
+  box-sizing: content-box;
+  margin-inline: auto;
+  max-inline-size: var(--content-w);
+  padding-inline: var(--gutter);
+}
+
+/* --- sticky index ----------------------------------------------------------
+   Bočni popis koji stoji dok sadržaj prolazi. Traži --header-h iz finish.css.
+   -------------------------------------------------------------------------- */
+.sticky-index {
+  position: sticky;
+  top: calc(var(--header-h, 72px) + var(--space-m, 1.5rem));
+  align-self: start;
+}
+
+/* --- pomoćno ---------------------------------------------------------------- */
+.full-bleed {
+  width: 100vw;
+  margin-inline-start: 50%;
+  transform: translateX(-50%);
+}
+.no-overflow { overflow-x: clip; }   /* clip, ne hidden: ne kvari position: sticky */

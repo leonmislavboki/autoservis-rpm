@@ -1,0 +1,458 @@
+/* ==========================================================================
+   site.css — Auto servis RPM, Zagreb
+   Smjer: dokumentaristički / tehnički. Tamna traka gore i dolje, svijetlo
+   tijelo, jedna narančasta iz logotipa (kazaljka na brojilu). Bez kartica sa
+   sjenama — podatke drži tipografija i vlasi linija.
+   Kompozicija: asimetrični hero + tablica kao layout.
+   ========================================================================== */
+
+/* --- 0. lokalne varijable ------------------------------------------------- */
+
+:root {
+  --tamno: #2b2b2a;                      /* točna boja kruga iz logotipa */
+  --tamno-2: #383837;
+  --na-tamnom: #f2f2f1;
+  --na-tamnom-tiho: #b0b0ae;
+  /* Rampa iz color.css ima a9 na 56% svjetline; kazaljka u logotipu je na
+     61.6%. Za gumbe i naglaske uzimamo točnu boju znaka, ne najbliži stupanj. */
+  --solid: #dd291f;
+  --solid-hover: oklch(52% 0.20 29);
+
+  --vlas: 1px solid var(--border);
+  --vlas-tamna: 1px solid oklch(100% 0 0 / 0.14);
+  --header-h: 86px;
+}
+
+/* U dark modeu podloga stranice potamni, pa tamna traka mora ići još dublje —
+   inače se traka i tijelo stope u jednu mrlju. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --tamno: #191918;
+    --tamno-2: #232322;
+    --vlas-tamna: 1px solid oklch(100% 0 0 / 0.10);
+  }
+}
+
+html { scroll-padding-top: calc(var(--header-h) + 1rem); color-scheme: light dark; }
+body { overflow-x: clip; }
+
+/* Naslovi idu na display font; tekst ostaje na Switzeru. */
+h1, h2, h3, .t-display { font-family: var(--font-display); font-weight: 800; }
+h2 { font-size: var(--type-4); letter-spacing: var(--tracking-display); }
+h3 { font-size: var(--type-2); }
+
+/* Nadnaslov sekcije — mala verzalna oznaka s crticom, ne badge u okviru. */
+.oznaka {
+  display: flex; align-items: center; gap: var(--space-2xs);
+  font-family: var(--font-text); font-weight: 700;
+  font-size: var(--type-n2); letter-spacing: var(--tracking-caps);
+  text-transform: uppercase; color: var(--text-muted);
+}
+.oznaka::before {
+  content: ""; inline-size: 28px; block-size: 2px;
+  background: var(--solid); flex: none;
+}
+
+/* Ikone su inline SVG sprite i crtaju se linijom, ne ispunom.
+   Zvjezdica je iznimka — nju sprite puni sam. */
+.ikona {
+  fill: none; stroke: currentColor; stroke-width: 1.7;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* Poveznice u sadržaju: boja teksta, podcrta u boji obruba. Plava zadana
+   poveznica na ovakvoj podlozi izgleda kao da je ostala iz predloška. */
+main a:not([class]) {
+  color: var(--text);
+  text-decoration-color: var(--border-strong);
+  text-underline-offset: 3px;
+}
+main a:not([class]):hover {
+  color: var(--text-accent);
+  text-decoration-color: currentColor;
+}
+
+/* --- 1. gumbi ------------------------------------------------------------- */
+
+.btn-solid, .btn-quiet, .btn-linija {
+  display: inline-flex; align-items: center; gap: 0.55em;
+  padding: 0.85em 1.35em; border-radius: var(--radius-s);
+  font-weight: 700; font-size: var(--type-n1);
+  letter-spacing: 0.01em; text-decoration: none;
+  /* Opruge upisuje spring.js kao CSS varijable; bez JS-a padne na ease. */
+  transition:
+    background 160ms ease, color 160ms ease, border-color 160ms ease,
+    transform var(--spring-stiff-t, 220ms) var(--spring-stiff, ease);
+}
+.btn-solid:hover, .btn-quiet:hover, .btn-linija:hover { transform: translateY(-2px); }
+.btn-solid:active, .btn-quiet:active, .btn-linija:active { transform: translateY(0); }
+.btn-solid svg, .btn-quiet svg, .btn-linija svg { flex: none; }
+
+.btn-linija {
+  border: 1px solid currentColor; color: inherit; background: none;
+}
+/* Obrubljeni gumb: na hoveru se puni, boja teksta se postavlja tamo gdje se
+   koristi (hero ima svoju, svijetla podloga svoju). */
+.btn-linija:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+/* --- 2. zaglavlje --------------------------------------------------------- */
+
+.site-header {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--tamno); color: var(--na-tamnom);
+  border-block-end: var(--vlas-tamna);
+}
+.site-header__inner {
+  block-size: var(--header-h);
+  display: flex; align-items: center; gap: var(--space-m);
+  max-inline-size: var(--content-w); margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.logo { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+/* Krug logotipa je iste sive kao traka, pa ga od nje odvaja tanki obrub.
+   background: none gazi podlogu za učitavanje iz finish.css (inače kvadrat). */
+.logo__slika {
+  display: block; inline-size: 72px; block-size: 72px;
+  background: none; border-radius: 50%;
+  box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.22);
+}
+
+.nav { margin-inline-start: auto; display: flex; align-items: center; gap: var(--space-s); }
+.nav a {
+  color: var(--na-tamnom-tiho); text-decoration: none;
+  font-size: var(--type-n1); font-weight: 500; padding-block: 0.4em;
+  border-block-end: 2px solid transparent;
+}
+.nav a:hover { color: var(--na-tamnom); border-block-end-color: var(--solid); }
+
+.header-tel {
+  background: var(--solid); color: oklch(15% 0 0);
+  padding: 0.7em 1em; border-radius: var(--radius-s);
+  font-weight: 700; font-size: var(--type-n1); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.5em;
+}
+.header-tel:hover { background: var(--a8); }
+
+.nav-toggle {
+  display: none; margin-inline-start: auto;
+  background: none; border: 1px solid oklch(100% 0 0 / 0.25);
+  color: var(--na-tamnom); border-radius: var(--radius-s);
+  padding: 0.5em 0.75em; font: inherit; font-size: var(--type-n1); cursor: pointer;
+}
+
+@media (max-width: 62rem) {
+  .nav-toggle { display: inline-flex; align-items: center; gap: 0.5em; }
+  .nav {
+    position: fixed; inset: var(--header-h) 0 auto 0;
+    background: var(--tamno); border-block-end: var(--vlas-tamna);
+    flex-direction: column; align-items: stretch; gap: 0;
+    padding: var(--space-s) var(--gutter) var(--space-m);
+    margin: 0; display: none;
+  }
+  .nav[data-open] { display: flex; }
+  .nav a { padding-block: 0.9em; border-block-end: var(--vlas-tamna); }
+  .nav a:last-of-type { border-block-end: 0; }
+  .header-tel { margin-block-start: var(--space-xs); justify-content: center; }
+}
+
+/* --- 3. hero -------------------------------------------------------------- */
+
+.hero {
+  background: var(--tamno); color: var(--na-tamnom);
+  padding-block: var(--space-2xl);
+  position: relative; overflow: clip;
+}
+.hero__grid {
+  max-inline-size: var(--content-w); margin-inline: auto;
+  padding-inline: var(--gutter);
+  display: grid; gap: var(--space-l);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 62rem) {
+  .hero__grid { grid-template-columns: 6fr 5fr; align-items: center; gap: var(--space-2xl); }
+}
+.hero__title {
+  font-size: var(--type-6); line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  margin-inline-start: -0.05em;           /* optičko poravnanje */
+  max-inline-size: 14ch;
+}
+.hero__title em { font-style: normal; color: var(--solid); }
+.hero__lede {
+  color: var(--na-tamnom-tiho); font-size: var(--type-1);
+  max-inline-size: 42ch; margin-block-start: var(--space-m);
+}
+.hero__cta { margin-block-start: var(--space-l); }
+.hero .btn-solid { background: var(--solid); color: oklch(15% 0 0); }
+.hero .btn-solid:hover { background: var(--a8); }
+.hero .btn-linija { color: var(--na-tamnom); border-color: oklch(100% 0 0 / 0.35); }
+.hero .btn-linija:hover { background: var(--na-tamnom); color: var(--tamno); border-color: var(--na-tamnom); }
+
+/* --- 5. usluge — popis s vlasima, ne tri jednake kartice ------------------- */
+
+.usluge__mreza { display: grid; gap: var(--space-xl); align-items: start; }
+@media (min-width: 62rem) {
+  .usluge__mreza { grid-template-columns: 4fr 8fr; }
+  .usluge__uvod { position: sticky; top: calc(var(--header-h) + var(--space-l)); }
+}
+.usl-lista { list-style: none; margin: 0; padding: 0; }
+.usl-red {
+  display: grid; grid-template-columns: auto 1fr; gap: var(--space-s);
+  padding-block: var(--space-m);
+  border-block-start: var(--vlas);
+}
+.usl-red:last-child { border-block-end: var(--vlas); }
+.usl-ikona {
+  inline-size: 40px; block-size: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--element); color: var(--text);
+  box-shadow: var(--ring);
+}
+.usl-ikona svg { inline-size: 20px; block-size: 20px; }
+.usl-naziv { font-family: var(--font-display); font-weight: 700; font-size: var(--type-1); }
+.usl-opis { color: var(--text-muted); margin-block-start: 0.35em; max-inline-size: 58ch; }
+.usl-red a { color: var(--text); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+/* --- 6. proces — brojevi u nizu, bez kartica ------------------------------- */
+
+.proces { background: var(--tamno); color: var(--na-tamnom); }
+.proces .oznaka { color: var(--na-tamnom-tiho); }
+.proc-mreza {
+  display: grid; gap: 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+  margin-block-start: var(--space-l);
+}
+.proc-korak {
+  padding: var(--space-m) var(--space-m) var(--space-l) 0;
+  border-block-start: var(--vlas-tamna);
+}
+@media (min-width: 62rem) {
+  .proc-korak + .proc-korak { padding-inline-start: var(--space-m); border-inline-start: var(--vlas-tamna); }
+}
+.proc-broj {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: var(--type-3); color: var(--na-tamnom); line-height: 1;
+}
+.proc-korak h3 { font-size: var(--type-1); margin-block: var(--space-2xs) 0.4em; }
+.proc-korak p { color: var(--na-tamnom-tiho); font-size: var(--type-n1); max-inline-size: 34ch; }
+
+/* --- 7. galerija ---------------------------------------------------------- */
+
+.galerija .reel { --reel-item: 22rem; padding-block-end: var(--space-s); }
+.galerija figure { margin: 0; }
+.galerija img {
+  inline-size: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+  border-radius: var(--radius-m);
+  filter: saturate(0.8) contrast(1.08);
+}
+.galerija figcaption {
+  font-size: var(--type-n1); color: var(--text-muted); margin-block-start: var(--space-2xs);
+}
+
+/* --- 8. recenzije --------------------------------------------------------- */
+
+.rec-mreza { display: grid; gap: var(--space-m); grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr)); }
+.rec {
+  border-block-start: 2px solid var(--text); padding-block-start: var(--space-s);
+  display: flex; flex-direction: column; gap: var(--space-xs);
+}
+.rec blockquote { margin: 0; font-size: var(--type-0); }
+.rec__tko { margin-block-start: auto; font-size: var(--type-n1); color: var(--text-muted); }
+.rec__tko strong { display: block; color: var(--text); font-weight: 700; }
+.zvjezdice { display: inline-flex; gap: 2px; color: var(--text); }
+.zvjezdice svg { inline-size: 15px; block-size: 15px; }
+
+/* --- 9. kontakt ----------------------------------------------------------- */
+
+.kontakt__mreza { display: grid; gap: var(--space-xl); }
+@media (min-width: 62rem) { .kontakt__mreza { grid-template-columns: 7fr 5fr; } }
+
+.podaci { list-style: none; margin: 0; padding: 0; }
+.podaci li {
+  display: grid; grid-template-columns: 24px 1fr; gap: var(--space-xs);
+  padding-block: var(--space-s); border-block-start: var(--vlas);
+}
+.podaci li:last-child { border-block-end: var(--vlas); }
+.podaci svg { inline-size: 20px; block-size: 20px; color: var(--text-muted); margin-block-start: 3px; }
+.podaci dt, .podaci .oznaka-polja {
+  font-size: var(--type-n2); letter-spacing: var(--tracking-caps);
+  text-transform: uppercase; color: var(--text-subtle);
+}
+.podaci a { color: var(--text); text-underline-offset: 3px; }
+
+.polje { display: block; margin-block-end: var(--space-s); }
+.polje > span {
+  display: block; font-size: var(--type-n1); font-weight: 500;
+  margin-block-end: 0.35em;
+}
+.polje input, .polje textarea, .polje select {
+  inline-size: 100%; font: inherit; font-size: var(--type-0);
+  padding: 0.7em 0.85em; border: 1px solid var(--border-strong);
+  border-radius: var(--radius-s); background: var(--surface); color: var(--text);
+}
+.polje textarea { min-block-size: 7rem; resize: vertical; }
+.polje input:focus-visible, .polje textarea:focus-visible, .polje select:focus-visible {
+  outline: 2px solid var(--border-focus); outline-offset: 1px;
+}
+.privola { display: grid; grid-template-columns: auto 1fr; gap: var(--space-xs); align-items: start; }
+.privola input { inline-size: 1.1rem; block-size: 1.1rem; margin-block-start: 0.2rem; }
+.privola span { font-size: var(--type-n1); color: var(--text-muted); }
+
+.karta-okvir { position: relative; aspect-ratio: 4 / 3; border-radius: var(--radius-m); overflow: hidden; }
+.karta-okvir iframe { inline-size: 100%; block-size: 100%; border: 0; display: block; }
+
+/* --- 14. print ------------------------------------------------------------ */
+
+@media print {
+  .site-header, .demo-badge, .galerija, .ck-banner { display: none; }
+  .hero, .proces, .site-footer { background: #fff; color: #000; }
+}
+
+/* ==========================================================================
+   15. INSTRUMENTI — grafika koja pripada ovom obrtu, a ne ukras općenito
+   Tri komada, svaki vezan uz posao: brojilo obrtaja (servis se po njemu zove),
+   kočioni disk koji se vrti dok skrolaš, i matica koja se steže kroz korake.
+   Sve je SVG iz _build/grafika.py; JS samo pomiče, ne crta.
+   ========================================================================== */
+
+/* --- ploča s instrumentima u dnu heroa ------------------------------------ */
+
+.dash {
+  max-inline-size: var(--content-w); margin-inline: auto;
+  padding: var(--space-l) var(--gutter);
+  margin-block-start: var(--space-2xl);
+  border-block-start: var(--vlas-tamna);
+  display: grid; gap: var(--space-l);
+}
+
+/* Traka činjenica živi unutar .dash i nema vlastiti okvir. */
+.cinjenica dt {
+  font-size: var(--type-n2); letter-spacing: var(--tracking-caps);
+  text-transform: uppercase; color: var(--na-tamnom-tiho);
+  margin-block-end: 0.35em;
+}
+.cinjenica dd {
+  margin: 0; font-family: var(--font-display); font-weight: 700;
+  font-size: var(--type-2); line-height: 1.1;
+}
+.cinjenica dd small {
+  display: block; font-family: var(--font-text); font-weight: 400;
+  font-size: var(--type-n1); color: var(--na-tamnom-tiho); margin-block-start: 0.35em;
+}
+
+.cinjenice {
+  display: grid; gap: var(--space-m) var(--space-s);
+  grid-template-columns: repeat(auto-fit, minmax(min(8.5rem, 100%), 1fr));
+}
+
+/* --- presjek motora u herou ----------------------------------------------
+   Crtež je tehnički: sve je linija, ispune skoro da nema. Jedina boja je
+   paljenje u prostoru izgaranja, koje js/motor.js pali u radnom taktu. */
+
+.hero__motor { position: relative; display: flex; justify-content: center; }
+
+/* Kad 3D motor proradi, SVG presjek izlazi van — ostaje samo kao zamjena za
+   preglednike bez WebGL-a i za uključen prefers-reduced-motion. */
+.motor3d__platno { display: block; max-inline-size: 100%; }
+[data-motor3d="radi"] .motor { display: none; }
+/* Dok se 3D učitava presjek se ne crta, inače bljesne pri svakom učitavanju.
+   Vraća se kad motor3d.js javi "nema" (bez WebGL-a) i uz reduced motion. */
+[data-motor3d] .motor { visibility: hidden; }
+[data-motor3d="nema"] .motor { visibility: visible; }
+@media (prefers-reduced-motion: reduce) {
+  [data-motor3d] .motor { visibility: visible; }
+}
+.motor {
+  inline-size: 100%; max-inline-size: 34rem; block-size: auto;
+  background: none;
+}
+.motor__obris     { fill: none; stroke: oklch(100% 0 0 / 0.20); stroke-width: 2; }
+.motor__spoj      { stroke: oklch(100% 0 0 / 0.14); stroke-width: 2; }
+.motor__stijenka  { stroke: oklch(100% 0 0 / 0.30); stroke-width: 2; }
+.motor__klip-tijelo {
+  fill: oklch(100% 0 0 / 0.05); stroke: oklch(100% 0 0 / 0.55); stroke-width: 2;
+}
+.motor__karika    { stroke: oklch(100% 0 0 / 0.35); stroke-width: 1.6; }
+.motor__osovinica { fill: var(--tamno); stroke: oklch(100% 0 0 / 0.55); stroke-width: 2; }
+.motor__ojnica    { stroke: oklch(100% 0 0 / 0.52); stroke-width: 6; stroke-linecap: round; }
+.motor__ruka      { fill: none; stroke: oklch(100% 0 0 / 0.45); stroke-width: 10; stroke-linecap: round; }
+.motor__rukavac   { fill: var(--tamno); stroke: oklch(100% 0 0 / 0.5); stroke-width: 2; }
+.motor__lezaj     { fill: var(--tamno); stroke: oklch(100% 0 0 / 0.3); stroke-width: 2; }
+.motor__os-koljena { stroke: oklch(100% 0 0 / 0.14); stroke-width: 1.5; stroke-dasharray: 9 7; }
+.motor__ventil-os { stroke: oklch(100% 0 0 / 0.42); stroke-width: 3; stroke-linecap: round; }
+.motor__ventil-tanjur { fill: oklch(100% 0 0 / 0.12); stroke: oklch(100% 0 0 / 0.42); stroke-width: 2; }
+.motor__breg-os   { fill: var(--tamno); stroke: oklch(100% 0 0 / 0.35); stroke-width: 2; }
+.motor__breg-grba { fill: oklch(100% 0 0 / 0.12); stroke: oklch(100% 0 0 / 0.35); stroke-width: 2; }
+.motor__paljenje  { fill: var(--solid); opacity: 0; }
+.motor__oznaka {
+  fill: var(--na-tamnom-tiho); font-family: var(--font-text); font-weight: 500;
+  font-size: 11px; letter-spacing: 0.18em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Motor ostaje u položaju iz markupa; paljenje se pokaže na prvom cilindru
+     da se vidi čemu služi. */
+  .motor__paljenje[data-motor-paljenje="0"] { opacity: 0.85; }
+}
+
+/* --- kočioni disk u sekciji usluga ---------------------------------------- */
+
+#usluge { position: relative; overflow: clip; }
+.disk-okvir {
+  position: absolute; inset-block-start: 26%;
+  inset-inline-end: -15rem;
+  inline-size: 34rem; z-index: -1; pointer-events: none;
+  /* Disk se gasi prema tekstu — ne smije se naći ispod rečenice koja se čita. */
+  -webkit-mask-image: linear-gradient(to left, #000 34%, transparent 88%);
+          mask-image: linear-gradient(to left, #000 34%, transparent 88%);
+}
+.disk { inline-size: 100%; block-size: auto; background: none; opacity: 0.22; }
+.disk__rotira { transform-box: fill-box; transform-origin: 50% 50%; }
+.disk__rub, .disk__glavina, .disk__srediste { fill: none; stroke: var(--text); stroke-width: 2; }
+.disk__rupa  { fill: none; stroke: var(--text); stroke-width: 1.4; }
+.disk__vijak { fill: none; stroke: var(--text); stroke-width: 1.6; }
+.disk__utor  { fill: none; stroke: var(--solid); stroke-width: 3; stroke-linecap: round; }
+
+@media (max-width: 62rem) {
+  .disk-okvir { inline-size: 22rem; inset-block-start: auto; inset-block-end: -4rem;
+                inset-inline-end: -8rem; }
+  .disk { opacity: 0.10; }
+}
+
+/* --- traka koraka s maticom ----------------------------------------------- */
+
+.proc-traka {
+  position: relative; block-size: 34px;
+  margin-block: var(--space-l) 0;
+}
+.proc-traka__crta { inline-size: 100%; block-size: 2px; display: block;
+  position: absolute; inset-block-start: 16px; }
+.proc-traka__sina { stroke: oklch(100% 0 0 / 0.14); stroke-width: 2; }
+.proc-traka__puna {
+  stroke: var(--solid); stroke-width: 2;
+  stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--sm-progress, 0));
+}
+.matica {
+  position: absolute; inset-block-start: 0;
+  inline-size: 34px; block-size: 34px; background: none;
+  inset-inline-start: calc(var(--sm-progress, 0) * 100%);
+  transform: translateX(-50%) rotate(calc(var(--sm-progress, 0) * 540deg));
+}
+.matica__tijelo { fill: var(--tamno); stroke: var(--solid); stroke-width: 2.4; }
+.matica__rupa   { fill: none; stroke: var(--solid); stroke-width: 2; }
+
+@media (max-width: 62rem) { .proc-traka { display: none; } }
+
+/* Bez pokreta: matica stoji na početku, traka je puna i statična. */
+@media (prefers-reduced-motion: reduce) {
+  .proc-traka__puna { stroke-dashoffset: 0; }
+  .matica { inset-inline-start: 100%; transform: translateX(-50%); }
+  .disk__rotira { transform: none !important; }
+}
+
+/* --- blueprint mreža u tamnoj traci --------------------------------------- */
+
+.proces {
+  position: relative; overflow: clip;
+  --bd-pattern: oklch(100% 0 0 / 0.09);
+}
