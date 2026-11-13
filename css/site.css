@@ -262,6 +262,22 @@ main a:not([class]):hover {
 .zvjezdice { display: inline-flex; gap: 2px; color: var(--text); }
 .zvjezdice svg { inline-size: 15px; block-size: 15px; }
 
+/* --- 8b. česta pitanja --------------------------------------------------- */
+
+.faq { max-width: var(--measure); border-block-end: var(--vlas); }
+.faq__stavka { border-block-start: var(--vlas); }
+.faq__stavka summary {
+  display: flex; justify-content: space-between; align-items: center; gap: var(--space-s);
+  padding-block: var(--space-s); font-weight: 700; font-size: var(--type-0);
+}
+.faq__stavka summary::after {
+  content: "+"; font-family: var(--font-text); font-weight: 400; font-size: 1.6rem;
+  line-height: 1; color: var(--solid); flex: none; transition: transform .2s ease;
+}
+.faq__stavka[open] summary::after { transform: rotate(45deg); }
+.faq__stavka p { margin: 0 0 var(--space-s); color: var(--text-muted); max-width: 60ch; }
+.faq__stavka summary:focus-visible { outline: 2px solid var(--solid); outline-offset: 2px; }
+
 /* --- 9. kontakt ----------------------------------------------------------- */
 
 .kontakt__mreza { display: grid; gap: var(--space-xl); }
